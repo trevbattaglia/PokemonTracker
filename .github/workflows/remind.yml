@@ -1,15 +1,14 @@
 name: remind
 
-# Fires the actual "drop starting soon" pings.
+# Fires the day-before, morning-of, and "starting soon" pings.
 #
-# Hourly is enough today: every source we have is date-only, so the only thing
-# this needs to catch is the 08:00-local morning ping. When a source with real
-# drop times lands (Pokemon Center), tighten this to "*/15 * * * *" so the
-# T-30 window is actually hit -- and note that on a private repo a 15-minute
-# cron burns roughly 1,400 of the 2,000 free Actions minutes per month.
+# Every 15min because a ~30min-ahead ping is not reachable on an hourly cron:
+# the drop would be 60min out on one run and 0min out on the next. Free on a
+# public repo; on a private one this would burn ~1,400 of the 2,000 free
+# Actions minutes per month.
 on:
   schedule:
-    - cron: "8 * * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:

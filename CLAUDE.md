@@ -31,31 +31,57 @@ Two crons:
 | Workflow       | When              | Does                                             |
 | -------------- | ----------------- | ------------------------------------------------ |
 | `calendar.yml` | daily 15:17 UTC   | scrape, diff, post digest of new/rescheduled     |
-| `remind.yml`   | hourly at :08     | post "drop starting soon" for anything due       |
+| `remind.yml`   | every 15 min      | post any due reminder stage                      |
 
 State lives in `data/drops.db`, committed back to the repo by each run because
-Actions runners are ephemeral. `notified_at` in that file is what stops a
-reminder firing every hour — losing it means duplicate pings.
+Actions runners are ephemeral. The `sent` table is what stops a reminder firing
+every 15 minutes — losing it means duplicate pings.
 
 ## Reminder timing (the non-obvious bit)
 
-Serebii publishes release **dates**, never times, so every drop currently has
-`time_confirmed=False` and is anchored to local midnight. A naive T-30min
-reminder would therefore fire at ~23:30 the *night before*. It doesn't:
+**Serebii publishes release dates, never times.** So a literal "30 minutes
+before" is undefined for a drop we only know the date of — there is no
+timestamp to count back from, and the local-midnight anchor means a naive
+T-minus window would fire at ~23:20 the *night before*.
 
-- `time_confirmed=True` → ping within `REMINDER_LEAD_MINUTES` (45) of the drop.
-- `time_confirmed=False` → ping at `MORNING_PING_HOUR` (08:00) local on the day.
+Each drop passes through stages, tracked per-stage in the `sent` table:
 
-The 45min lead is wider than the nominal T-30 on purpose: GitHub Actions cron
-drifts 5–15 minutes under load, and a late runner must not skip the window.
+| Stage           | Fires                                    | Applies to |
+| --------------- | ---------------------------------------- | ---------- |
+| `day_before`    | 08:00 local, the day before              | every drop |
+| `starting_soon` | within `REMINDER_LEAD_MINUTES` (40)      | timed only |
+| `morning_of`    | 08:00 local, on the day                  | date-only  |
+
+So a date-only drop gets *day before* + *morning of*; a drop with a known time
+gets *day before* + *~30 min before*.
+
+The 40min lead is wider than the nominal 30 on purpose: the cron runs every
+15min and Actions drifts 5–15min under load, so a strict 30 would let a late
+runner skip the window entirely. In practice the ping lands ~25–40min ahead.
+Hourly cron cannot do this at all — the drop is 60min out on one run and 0min
+out on the next — which is why `remind.yml` is `*/15`.
+
+## Getting a true "30 minutes before"
+
+Pin a real time once you learn one (Pokémon Center announcements, etc.):
+
+```bash
+python -m pkmn_drops.cli set-time "Pitch Black" "2026-07-17 09:00"
+```
+
+That flips the drop to `time_confirmed` and sets `time_override=1`, which stops
+the daily scrape from resetting it to Serebii's date-only midnight — without
+that flag the scrape would look like a reschedule and re-ping. Times are in
+`PKMN_TZ`. Run it locally, then commit `data/drops.db`.
 
 ## Commands
 
 ```bash
-python -m pkmn_drops.cli scrape            # find drops, post digest
-python -m pkmn_drops.cli remind            # post due reminders
-python -m pkmn_drops.cli upcoming          # what's on the books (local, no posting)
-python -m pkmn_drops.cli --dry-run scrape  # print instead of posting; no DB writes
+python -m pkmn_drops.cli scrape                     # find drops, post digest
+python -m pkmn_drops.cli remind                     # post due reminder stages
+python -m pkmn_drops.cli upcoming                   # what's on the books (no posting)
+python -m pkmn_drops.cli set-time NAME "Y-M-D H:M"  # pin a real drop time
+python -m pkmn_drops.cli --dry-run scrape           # print instead of posting
 ```
 
 `--dry-run` rolls back its DB writes. It has to: if it committed, the real run

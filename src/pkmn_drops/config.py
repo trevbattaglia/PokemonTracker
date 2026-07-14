@@ -31,10 +31,11 @@ def discord_webhook_url() -> str:
     return url
 
 
-# How far ahead the reminder cron looks for drops with a confirmed time.
-# GitHub Actions cron drifts 5-15min under load, so the window is deliberately
-# wider than the nominal T-30 to avoid a late runner skipping a drop entirely.
-REMINDER_LEAD_MINUTES = 45
+# Target is "about 30 minutes before". The window is wider than 30 on purpose:
+# the cron runs every 15min and Actions drifts 5-15min under load, so a strict
+# 30 would let a late runner skip the window entirely and ping nothing. At 40
+# the first qualifying run lands roughly 25-40min out -- early, never missed.
+REMINDER_LEAD_MINUTES = 40
 
 # Date-only drops (Serebii publishes dates, never times) are anchored to local
 # midnight. A T-minus ping would fire ~11pm the night before, so they get a

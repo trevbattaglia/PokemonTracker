@@ -41,7 +41,7 @@ def test_missing_webhook_env_is_a_clear_error(monkeypatch):
 @responses.activate
 def test_reminder_posts_embed_with_direct_link():
     responses.add(responses.POST, WEBHOOK, status=204)
-    discord.send_reminder(row())
+    discord.send_reminder(row(), "starting_soon")
 
     body = responses.calls[0].request.body
     import json
@@ -55,7 +55,7 @@ def test_reminder_posts_embed_with_direct_link():
 @responses.activate
 def test_date_only_drop_is_marked_time_tba():
     responses.add(responses.POST, WEBHOOK, status=204)
-    discord.send_reminder(row(time_confirmed=0))
+    discord.send_reminder(row(time_confirmed=0), "morning_of")
 
     import json
 
@@ -67,7 +67,7 @@ def test_date_only_drop_is_marked_time_tba():
 @responses.activate
 def test_confirmed_time_is_not_marked_tba():
     responses.add(responses.POST, WEBHOOK, status=204)
-    discord.send_reminder(row(time_confirmed=1))
+    discord.send_reminder(row(time_confirmed=1), "starting_soon")
 
     import json
 
@@ -100,4 +100,4 @@ def test_digest_over_cap_sends_one_summary_not_a_flood():
 def test_http_error_raises():
     responses.add(responses.POST, WEBHOOK, status=404, body="Unknown Webhook")
     with pytest.raises(discord.DiscordError, match="404"):
-        discord.send_reminder(row())
+        discord.send_reminder(row(), "starting_soon")

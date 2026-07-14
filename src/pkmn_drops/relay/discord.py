@@ -80,12 +80,26 @@ def send_digest(rows: list, *, title: str) -> None:
     )
 
 
-def send_reminder(row) -> None:
-    """Fires shortly before a drop. This is the message that matters."""
+# How each reminder stage presents itself. The lead text is the part you read
+# from a phone notification without opening Discord, so it carries the timing.
+_STAGE_STYLE = {
+    "day_before": ("📣 **Tomorrow**", COLOR_NEW, "📅"),
+    "morning_of": ("🎯 **Today**", COLOR_REMINDER, "🔥"),
+    "starting_soon": ("⏰ **Drop starting soon**", COLOR_REMINDER, "🔥"),
+}
+
+
+def send_reminder(row, stage: str) -> None:
+    """Fires ahead of a drop. This is the message that matters."""
+    try:
+        content, color, prefix = _STAGE_STYLE[stage]
+    except KeyError:
+        raise ValueError(f"unknown reminder stage: {stage!r}") from None
+
     _post(
         {
-            "content": "⏰ **Drop starting soon**",
-            "embeds": [_embed(row, color=COLOR_REMINDER, title_prefix="🔥")],
+            "content": content,
+            "embeds": [_embed(row, color=color, title_prefix=prefix)],
         }
     )
 

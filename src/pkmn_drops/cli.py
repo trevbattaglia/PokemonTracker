@@ -13,7 +13,7 @@ import traceback
 from datetime import datetime, timezone
 
 from . import store
-from .config import REMINDER_LEAD_MINUTES
+from .config import LOCAL_TZ, REMINDER_LEAD_MINUTES
 from .dropcal.parser import parse_serebii_english
 from .dropcal.sources import fetch_serebii_english
 from .relay import discord
@@ -57,16 +57,50 @@ def cmd_scrape(args) -> int:
 def cmd_remind(args) -> int:
     conn = store.connect()
     due = store.due_for_reminder(conn, REMINDER_LEAD_MINUTES)
-    print(f"{len(due)} drop(s) due for reminder")
+    print(f"{len(due)} reminder(s) due")
 
     if args.dry_run:
-        for r in due:
-            print(f"  would remind: {r['product_name']} @ {r['drop_datetime']}")
+        for row, stage in due:
+            print(f"  would send [{stage}]: {row['product_name']} @ {row['drop_datetime']}")
         return 0
 
-    for row in due:
-        discord.send_reminder(row)
-    store.mark_notified(conn, [r["key"] for r in due])
+    # Mark each stage sent immediately after it lands, not in one batch at the
+    # end: if the run dies partway, the delivered pings must not re-fire.
+    for row, stage in due:
+        discord.send_reminder(row, stage)
+        store.mark_sent(conn, [(row["key"], stage)])
+    return 0
+
+
+def cmd_set_time(args) -> int:
+    """Pin a real drop time so the drop earns a true T-minus ping.
+
+    Serebii only publishes dates, so this is the only way to get a genuine
+    "30 minutes before" for a drop whose time you've learned elsewhere.
+    """
+    conn = store.connect()
+    matches = store.find(conn, args.name)
+    if not matches:
+        print(f"no drop matching {args.name!r}", file=sys.stderr)
+        return 1
+    if len(matches) > 1:
+        print(f"{args.name!r} is ambiguous:", file=sys.stderr)
+        for m in matches:
+            print(f"  {m['drop_datetime'][:10]}  {m['product_name']}", file=sys.stderr)
+        return 1
+
+    row = matches[0]
+    try:
+        naive = datetime.strptime(args.when, "%Y-%m-%d %H:%M")
+    except ValueError:
+        print(f"could not parse {args.when!r}; expected 'YYYY-MM-DD HH:MM'",
+              file=sys.stderr)
+        return 1
+
+    when = naive.replace(tzinfo=LOCAL_TZ)
+    store.set_drop_time(conn, row["key"], when)
+    print(f"{row['product_name']} pinned to {when:%Y-%m-%d %H:%M %Z}")
+    print(f"  -> will ping ~{REMINDER_LEAD_MINUTES}min before, and the day before")
     return 0
 
 
@@ -89,9 +123,17 @@ def main(argv: list[str] | None = None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("scrape").set_defaults(fn=cmd_scrape)
     sub.add_parser("remind").set_defaults(fn=cmd_remind)
+
     up = sub.add_parser("upcoming")
     up.add_argument("--limit", type=int, default=10)
     up.set_defaults(fn=cmd_upcoming)
+
+    st = sub.add_parser(
+        "set-time", help="pin a known drop time, e.g. set-time 'Pitch Black' '2026-07-17 09:00'"
+    )
+    st.add_argument("name", help="substring of the product name")
+    st.add_argument("when", help="local time as 'YYYY-MM-DD HH:MM'")
+    st.set_defaults(fn=cmd_set_time)
 
     args = p.parse_args(argv)
     try:
