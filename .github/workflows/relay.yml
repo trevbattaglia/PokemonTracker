@@ -1,13 +1,21 @@
 name: relay
 
-# Phase 2: watch Best Buy for watchlisted products coming into stock.
+# Phase 2: alert when a watchlisted product comes into stock.
 #
-# Every 15min. This is NOT the "high-frequency polling" the design doc rules
-# out -- that non-goal is about hammering retailers who never invited you.
-# Best Buy publishes an official keyed API allowing 5 req/sec and 50k req/day;
-# three search terms every 15 minutes is ~288 requests/day, well inside it.
-# Pokemon Center stays off-limits (Incapsula) and Target's RedSky is an
-# undocumented internal API, so neither is polled.
+# Reads NowInStock, which already aggregates Amazon, Target, Walmart and Best
+# Buy. This is the design doc's own plan -- "the monitoring problem is already
+# solved by people with dedicated infrastructure ... aggregate instead" -- and
+# every direct-retailer path proved it right: Pokemon Center disallows
+# /availabilities and sits behind Incapsula, Target's RedSky is Disallow: /,
+# Reddit is Disallow: / and rate-limits, and Best Buy's API needs a key that
+# needs a non-free email domain.
+#
+# One page every 15 minutes is ~96 requests/day against a site whose robots.txt
+# permits /collectibles/ and sets no Crawl-delay. That is not the
+# "high-frequency polling" the non-goals rule out.
+#
+# No API key required. If BESTBUY_API_KEY ever exists it layers on as a second
+# source automatically and dedupe collapses the overlap.
 on:
   schedule:
     - cron: "*/15 * * * *"
@@ -25,38 +33,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Check the API key is configured
-        id: gate
-        env:
-          BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }}
-        run: |
-          if [[ -z "${BESTBUY_API_KEY}" ]]; then
-            echo "::warning::BESTBUY_API_KEY is not set -- relay is idle. Get a free key at https://developer.bestbuy.com/ and add it under Settings > Secrets > Actions."
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - uses: actions/setup-python@v5
-        if: steps.gate.outputs.ready == 'true'
         with:
           python-version: "3.12"
           cache: pip
 
       - run: pip install -e .
-        if: steps.gate.outputs.ready == 'true'
 
       - name: Check for restocks
-        if: steps.gate.outputs.ready == 'true'
         env:
-          BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }} # optional second source
           PKMN_TZ: America/Los_Angeles
         run: python -m pkmn_drops.cli relay
 
       - name: Persist state
-        if: steps.gate.outputs.ready == 'true'
         uses: ./.github/actions/commit-db
         with:
           message: "state: relay"

@@ -17,9 +17,8 @@ latency race. Human does all purchasing, manually, in a normal browser.
 
 ## Status
 
-Phase 1 (drop calendar → Discord) and Phase 2 (restock relay) are both built.
-Phase 2 is **idle until `BESTBUY_API_KEY` is set** — the workflow warns rather
-than failing.
+Phase 1 (drop calendar → Discord) and Phase 2 (restock relay) are both built
+and live. Neither needs an API key.
 
 ## How it works
 
@@ -32,7 +31,7 @@ serebii → parser → Drop → SQLite (diff) → Discord webhook
 Phase 2 — *can I buy it right now?*
 
 ```
-Best Buy API → parse → dedupe → watchlist filter → restock diff → Discord
+NowInStock → parse → dedupe → watchlist filter → restock diff → Discord
 ```
 
 Phase 1 tells you a date. Phase 2 is the one you can act on: Pokémon Center had
@@ -97,7 +96,7 @@ python -m pkmn_drops.cli remind                     # post due reminder stages
 python -m pkmn_drops.cli upcoming                   # what's on the books (no posting)
 python -m pkmn_drops.cli set-time NAME "Y-M-D H:M"  # pin a real drop time
 python -m pkmn_drops.cli relay                      # Phase 2: check for restocks
-python -m pkmn_drops.cli status-vocab               # observed `orderable` values
+python -m pkmn_drops.cli status-vocab               # observed stock statuses
 python -m pkmn_drops.cli --dry-run relay            # print instead of posting
 ```
 
@@ -139,12 +138,36 @@ Amazon returns paint.
 
 ## Phase 2 — restock relay
 
-Ingests the **official Best Buy Products API**. Not a scraper: it's keyed,
-sanctioned, and allows 5 req/sec and 50k req/day. Three search terms every 15
-minutes is ~288 requests/day. The "no high-frequency polling" non-goal is about
-hammering retailers who never invited you; Best Buy publishes this API and
-documents the quota. Pokémon Center stays off-limits (Incapsula) and Target's
-RedSky is an undocumented internal API, so neither is polled.
+Ingests **NowInStock**, which already aggregates Amazon, Target, Walmart, Best
+Buy and Sam's Club. This is the handover doc's own plan, and it was right:
+
+> "The monitoring problem is already solved by people with dedicated
+> infrastructure. Re-solving it means fighting Akamai/PerimeterX for a signal
+> you can get for free. Don't. Aggregate instead."
+
+Every direct-retailer path was tried first and is provably closed:
+
+| Path | Why not |
+| --- | --- |
+| Pokémon Center | `robots.txt` disallows `/availabilities`, `/prices`, `/items`, `/offers`; Incapsula JS challenge on top |
+| Target RedSky | `redsky.target.com/robots.txt` is `Disallow: /`, and it needs a key anyway |
+| Reddit RSS | `robots.txt` is `Disallow: /`; rate-limits (429) on sight |
+| Best Buy API | Sanctioned and coded up — but a key requires a non-free email domain |
+| PokéBeach RSS | WordPress feeds disabled (`No feed available`) |
+
+NowInStock's `robots.txt` permits `/collectibles/` (it disallows only
+`get_item.php` and alert-setting endpoints) and sets no `Crawl-delay`. One page
+every 15 minutes is ~96 requests/day — not the "high-frequency polling" the
+non-goals rule out.
+
+`relay/ingest/bestbuy.py` is kept and tested. If `BESTBUY_API_KEY` ever exists
+(non-free email), it layers on as a second source automatically and `dedupe.py`
+collapses the overlap — which is exactly why dedupe exists.
+
+**Affiliate links are passed through, not stripped.** NowInStock's rows link via
+`mavely.app.link` / `skimresources`. They do the monitoring we're getting for
+free; taking their commission to save a redirect would be a shabby trade, and
+the links resolve to the same product.
 
 Two rules do the real work:
 
@@ -159,29 +182,34 @@ something slips through, add an `exclude` term rather than making the matcher
 clever. An unknown price never satisfies a `max_price` rule: if we can't prove
 it's under budget, we don't claim it is.
 
-### Best Buy's `orderable` field is undocumented
+### Stock status vocabularies are undocumented
 
-`onlineAvailability` is a documented boolean and is the stock signal.
-`orderable` is recorded in `products.raw_status` but **never branched on** — its
-value vocabulary isn't published, and guessing it means guessing whether an
-alert is real. After a real run:
+Neither source publishes what its status strings can be, and that field decides
+whether an alert is real — so nothing is guessed. Observed on the real capture
+(2026-07-14): `Out of Stock` ×216, `In Stock` ×9, `Preorder` ×1,
+`Stock Available` ×1. An unrecognised status **skips the row and warns** rather
+than being assumed either way.
+
+`Preorder` counts as buyable: a live preorder *is* the buying moment for sealed
+Pokémon — PC sold out of Pitch Black at preorder, days before release. The alert
+always shows the raw status, so a preorder never masquerades as "In Stock".
+
+For Best Buy, `onlineAvailability` (documented boolean) is the signal;
+`orderable` is recorded but never branched on for the same reason.
 
 ```bash
 python -m pkmn_drops.cli status-vocab   # learn the vocabulary from real data
 ```
 
-### The fixture is synthetic
+### Fixture provenance
 
-`tests/fixtures/bestbuy_search.json` was built from the published schema, not
-captured, because getting a key requires creating an account. That breaks this
-project's own rule that fixtures be real. Replace it as soon as a key exists:
-
-```bash
-python -m pkmn_drops.tools.capture_bestbuy > tests/fixtures/bestbuy_search.json
-```
-
-If the real response differs from the schema, `tests/test_bestbuy.py` is where
-it surfaces.
+- `nowinstock_pokemoncards.html` — **real capture**, 2026-07-14.
+- `serebii_english.html` — **real capture**.
+- `bestbuy_search.json` — **SYNTHETIC**, built from the published schema because
+  a key requires an account. This breaks the project's own fixtures-must-be-real
+  rule; `test_bestbuy.py` asserts it's labelled synthetic so it can't be quietly
+  trusted. Replace it if a key ever arrives:
+  `python -m pkmn_drops.tools.capture_bestbuy > tests/fixtures/bestbuy_search.json`
 
 ## Known gaps
 
@@ -190,8 +218,13 @@ it surfaces.
   for now, worth doing if the calendar and relay start disagreeing.
 - **Drop MSRP is always null.** It's per-product, not per-set; Phase 2 has real
   prices, Phase 1 doesn't.
-- **Best Buy only.** It's the one retailer here with a sanctioned API. Adding a
-  second source is what `dedupe.py` exists for.
+- **We only see what NowInStock tracks.** Their coverage is the ceiling. If
+  something is missing, it's missing — that's the price of aggregating rather
+  than scraping, and it's the right trade.
+- **`max_price` silently withholds alerts by design.** The Chaos Rising ETB was
+  In Stock at Amazon for $79.99 and was *not* alerted, because the rule caps at
+  $75. That's intended (don't ping at a markup), but if the relay seems too
+  quiet, check the caps in `watchlist.yaml` first.
 
 ## Source gotchas
 

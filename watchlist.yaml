@@ -8,17 +8,19 @@
 # above MSRP so a normal price change doesn't silently filter a real restock
 # out -- a false negative here means you miss the drop.
 
+# Retailer names must match the normalised values in relay/ingest/nowinstock.py:
+# amazon, target, walmart, best_buy, sams_club. Omit `retailers` to allow any.
 watchlist:
   - match: "Elite Trainer Box"
-    retailers: [best_buy]
+    retailers: [pokemon_center, target, best_buy, walmart, amazon]
     max_price: 75.00
 
   - match: "Booster Bundle"
-    retailers: [best_buy]
+    retailers: [pokemon_center, target, best_buy, walmart, amazon]
     max_price: 40.00
 
   - match: "Booster Display Box"
-    retailers: [best_buy]
+    retailers: [pokemon_center, target, best_buy, walmart, amazon]
     max_price: 200.00
 
 # Sealed-adjacent merch that matches the words above but isn't what you want.

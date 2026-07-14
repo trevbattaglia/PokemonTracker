@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 import traceback
 from datetime import datetime, timezone
@@ -19,7 +20,7 @@ from .dropcal.sources import fetch_serebii_english
 from .relay import discord
 from .relay import filter as wl_filter
 from .relay.dedupe import dedupe
-from .relay.ingest import bestbuy
+from .relay.ingest import bestbuy, nowinstock
 
 
 def cmd_scrape(args) -> int:
@@ -112,19 +113,38 @@ def cmd_relay(args) -> int:
     watchlist = wl_filter.load()
     conn = store.connect()
 
-    raw = bestbuy.ingest(watchlist.search_terms())
-    print(f"ingested {len(raw)} products from best buy")
+    # NowInStock is the primary source: it already aggregates Amazon, Target,
+    # Walmart and Best Buy, and every direct-retailer path is walled off (see
+    # relay/ingest/nowinstock.py). Best Buy's own API is strictly better data
+    # when available, so it layers on top when a key exists -- dedupe collapses
+    # the overlap, which is exactly what it's for.
+    result = nowinstock.ingest()
+    raw = list(result.products)
+    print(f"ingested {len(raw)} products from nowinstock")
+
+    if result.skipped:
+        # An unrecognised stock status decides whether an alert is real, so it
+        # must never pass silently.
+        msg = "nowinstock rows skipped:\n" + "\n".join(result.skipped[:20])
+        print(msg, file=sys.stderr)
+        if not args.dry_run:
+            discord.send_error(msg)
+
+    if os.environ.get("BESTBUY_API_KEY", "").strip():
+        bb = bestbuy.ingest(watchlist.search_terms())
+        print(f"  + {len(bb)} from the best buy API")
+        raw.extend(bb)
 
     deduped = dedupe(raw, seen_at=datetime.now(timezone.utc))
     matched = [p for p in deduped if watchlist.matches(p)]
     print(f"  {len(deduped)} after dedupe, {len(matched)} match the watchlist")
 
     if not matched:
-        # Every term returning nothing that matches means the watchlist and the
-        # catalogue have drifted apart. Fail loudly rather than look healthy.
+        # Nothing matching at all means the watchlist and the catalogue have
+        # drifted apart. Fail loudly rather than look healthy while silent.
         raise RuntimeError(
-            "no products matched the watchlist -- terms may be stale or the API "
-            "response shape changed"
+            "no products matched the watchlist -- terms may be stale or the "
+            "source's markup changed"
         )
 
     if args.dry_run:
@@ -144,15 +164,19 @@ def cmd_relay(args) -> int:
 
 
 def cmd_status_vocab(args) -> int:
-    """Report Best Buy's observed `orderable` values. Its vocabulary is
-    undocumented, so this is how we learn it from real data."""
+    """Report the retailer status strings we've actually observed.
+
+    Neither source publishes its vocabulary, so this is how we learn it from
+    real data rather than guessing -- and how a new status shows up before it
+    silently costs a drop.
+    """
     conn = store.connect()
     rows = store.status_vocabulary(conn)
     if not rows:
         print("no products recorded yet -- run `relay` first")
         return 0
     for label, n in rows:
-        print(f"  {n:4}x  orderable={label}")
+        print(f"  {n:4}x  {label}")
     return 0
 
 
