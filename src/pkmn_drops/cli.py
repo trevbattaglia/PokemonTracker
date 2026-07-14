@@ -17,6 +17,9 @@ from .config import LOCAL_TZ, REMINDER_LEAD_MINUTES
 from .dropcal.parser import parse_serebii_english
 from .dropcal.sources import fetch_serebii_english
 from .relay import discord
+from .relay import filter as wl_filter
+from .relay.dedupe import dedupe
+from .relay.ingest import bestbuy
 
 
 def cmd_scrape(args) -> int:
@@ -104,6 +107,55 @@ def cmd_set_time(args) -> int:
     return 0
 
 
+def cmd_relay(args) -> int:
+    """Phase 2: ingest -> normalize -> dedupe -> watchlist filter -> Discord."""
+    watchlist = wl_filter.load()
+    conn = store.connect()
+
+    raw = bestbuy.ingest(watchlist.search_terms())
+    print(f"ingested {len(raw)} products from best buy")
+
+    deduped = dedupe(raw, seen_at=datetime.now(timezone.utc))
+    matched = [p for p in deduped if watchlist.matches(p)]
+    print(f"  {len(deduped)} after dedupe, {len(matched)} match the watchlist")
+
+    if not matched:
+        # Every term returning nothing that matches means the watchlist and the
+        # catalogue have drifted apart. Fail loudly rather than look healthy.
+        raise RuntimeError(
+            "no products matched the watchlist -- terms may be stale or the API "
+            "response shape changed"
+        )
+
+    if args.dry_run:
+        restocks = store.upsert_products(conn, matched, commit=False)
+        for p in matched:
+            mark = "IN STOCK" if p.in_stock else "sold out"
+            price = f"${p.price:.2f}" if p.price is not None else "?"
+            print(f"    [{mark:8}] {price:>8}  {p.name[:58]}")
+        print(f"  would alert on {len(restocks)} restock(s)")
+        conn.rollback()
+        return 0
+
+    restocks = store.upsert_products(conn, matched)
+    print(f"  {len(restocks)} restock(s) to alert")
+    discord.send_restocks(restocks)
+    return 0
+
+
+def cmd_status_vocab(args) -> int:
+    """Report Best Buy's observed `orderable` values. Its vocabulary is
+    undocumented, so this is how we learn it from real data."""
+    conn = store.connect()
+    rows = store.status_vocabulary(conn)
+    if not rows:
+        print("no products recorded yet -- run `relay` first")
+        return 0
+    for label, n in rows:
+        print(f"  {n:4}x  orderable={label}")
+    return 0
+
+
 def cmd_upcoming(args) -> int:
     conn = store.connect()
     rows = store.upcoming(conn, limit=args.limit)
@@ -127,6 +179,11 @@ def main(argv: list[str] | None = None) -> int:
     up = sub.add_parser("upcoming")
     up.add_argument("--limit", type=int, default=10)
     up.set_defaults(fn=cmd_upcoming)
+
+    sub.add_parser("relay", help="check watchlisted products for restocks").set_defaults(fn=cmd_relay)
+    sub.add_parser(
+        "status-vocab", help="observed Best Buy `orderable` values"
+    ).set_defaults(fn=cmd_status_vocab)
 
     st = sub.add_parser(
         "set-time", help="pin a known drop time, e.g. set-time 'Pitch Black' '2026-07-17 09:00'"

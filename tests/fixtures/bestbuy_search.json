@@ -1,0 +1,53 @@
+{
+  "_fixture_provenance": "SYNTHETIC -- built from the published Best Buy API schema at https://bestbuyapis.github.io/api-documentation/#products-api, NOT captured from a real response, because obtaining a key requires creating an account. Product names, SKUs and prices mirror what bestbuy.com showed for 'pokemon tcg pitch black' on 2026-07-14. REPLACE THIS with a real capture once BESTBUY_API_KEY exists: python -m pkmn_drops.tools.capture_bestbuy > tests/fixtures/bestbuy_search.json. The `orderable` values below are the documented-but-unverified part -- the code must not branch on them.",
+  "from": 1,
+  "to": 4,
+  "total": 4,
+  "totalPages": 1,
+  "queryTime": "0.012",
+  "totalTime": "0.045",
+  "partial": false,
+  "canonicalUrl": "/v1/products((search=Elite%20Trainer%20Box))?show=sku,name,salePrice,regularPrice,onlineAvailability,orderable,url,releaseDate&pageSize=100&format=json",
+  "products": [
+    {
+      "sku": 6577554,
+      "name": "Pokémon - Trading Card Game: Mega Evolution - Pitch Black Elite Trainer Box",
+      "salePrice": 49.99,
+      "regularPrice": 49.99,
+      "onlineAvailability": false,
+      "orderable": "ComingSoon",
+      "url": "https://www.bestbuy.com/site/pokemon-trading-card-game-mega-evolution-pitch-black-elite-trainer-box/6577554.p?skuId=6577554",
+      "releaseDate": "2026-07-17"
+    },
+    {
+      "sku": 6577555,
+      "name": "Pokémon - Trading Card Game: Mega Evolution - Pitch Black Booster Bundle",
+      "salePrice": 26.94,
+      "regularPrice": 26.94,
+      "onlineAvailability": true,
+      "orderable": "Available",
+      "url": "https://www.bestbuy.com/site/pokemon-trading-card-game-mega-evolution-pitch-black-booster-bundle/6577555.p?skuId=6577555",
+      "releaseDate": "2026-07-17"
+    },
+    {
+      "sku": 6512345,
+      "name": "Pokémon - Trading Card Game: Pikachu Plush with Elite Trainer Box",
+      "salePrice": 34.99,
+      "regularPrice": 39.99,
+      "onlineAvailability": true,
+      "orderable": "Available",
+      "url": "https://www.bestbuy.com/site/pokemon-pikachu-plush/6512345.p?skuId=6512345",
+      "releaseDate": "2025-01-10"
+    },
+    {
+      "sku": 6598877,
+      "name": "Pokémon - Trading Card Game: Scarlet & Violet Journey Together Elite Trainer Box",
+      "salePrice": 119.99,
+      "regularPrice": 119.99,
+      "onlineAvailability": true,
+      "orderable": "Available",
+      "url": "https://www.bestbuy.com/site/pokemon-journey-together-etb/6598877.p?skuId=6598877",
+      "releaseDate": "2025-03-28"
+    }
+  ]
+}

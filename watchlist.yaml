@@ -1,0 +1,32 @@
+# The whole point of the relay: turn a firehose into ~3 relevant pings a week.
+#
+# A product must match at least one `watchlist` entry AND hit none of the
+# `exclude` terms. Matching is case-insensitive substring on the product name.
+#
+# Prices are what Best Buy actually lists today: Pitch Black ETB $49.99,
+# Booster Bundle $26.94, Booster Display Box $161.64. Set max_price a little
+# above MSRP so a normal price change doesn't silently filter a real restock
+# out -- a false negative here means you miss the drop.
+
+watchlist:
+  - match: "Elite Trainer Box"
+    retailers: [best_buy]
+    max_price: 75.00
+
+  - match: "Booster Bundle"
+    retailers: [best_buy]
+    max_price: 40.00
+
+  - match: "Booster Display Box"
+    retailers: [best_buy]
+    max_price: 200.00
+
+# Sealed-adjacent merch that matches the words above but isn't what you want.
+exclude:
+  - plush
+  - pin collection
+  - figure
+  - sticker
+  - puzzle
+  - backpack
+  - t-shirt

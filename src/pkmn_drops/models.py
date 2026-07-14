@@ -8,6 +8,33 @@ from datetime import datetime, timezone
 
 
 @dataclass(frozen=True)
+class Product:
+    """A purchasable SKU at a retailer.
+
+    Distinct from Drop on purpose. A Drop is a calendar event ("Pitch Black
+    releases July 17"); a Product is a thing with a price and a stock level
+    ("Pitch Black Elite Trainer Box, $49.99, in stock at Best Buy"). Phase 1
+    proved you cannot buy a Drop -- Pokemon Center had every Pitch Black
+    product sold out three days before Pitch Black's own release date.
+    """
+
+    sku: str
+    name: str
+    retailer: str
+    in_stock: bool
+    url: str
+    source: str
+    price: float | None = None
+    # Retailer's own status string. Best Buy's `orderable` vocabulary is
+    # undocumented, so it is recorded but never branched on until observed.
+    raw_status: str | None = None
+
+    @property
+    def key(self) -> str:
+        return f"{self.retailer}:{self.sku}"
+
+
+@dataclass(frozen=True)
 class Drop:
     product_name: str
     retailer: str

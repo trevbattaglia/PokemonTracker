@@ -20,6 +20,8 @@ LOCAL_TZ = ZoneInfo(os.environ.get("PKMN_TZ", "America/Los_Angeles"))
 
 DB_PATH = Path(os.environ.get("PKMN_DB", REPO_ROOT / "data" / "drops.db"))
 
+WATCHLIST_PATH = Path(os.environ.get("PKMN_WATCHLIST", REPO_ROOT / "watchlist.yaml"))
+
 
 def discord_webhook_url() -> str:
     url = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()

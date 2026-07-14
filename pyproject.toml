@@ -5,6 +5,7 @@ description = "Pokemon TCG sealed drop calendar and alert relay"
 requires-python = ">=3.11"
 dependencies = [
     "requests>=2.31",
+    "pyyaml>=6.0",
     "beautifulsoup4>=4.12",
     "python-dotenv>=1.0",
     "tzdata>=2024.1; sys_platform == 'win32'",

@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .config import DB_PATH, LOCAL_TZ, MORNING_PING_HOUR
-from .models import Drop
+from .models import Drop, Product
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS drops (
@@ -35,6 +35,23 @@ CREATE TABLE IF NOT EXISTS sent (
     stage    TEXT NOT NULL,
     sent_at  TEXT NOT NULL,
     PRIMARY KEY (drop_key, stage)
+);
+
+-- Phase 2. Last known stock level per SKU, so we can alert on the *transition*
+-- into stock rather than on "is in stock", which would re-ping every 15min for
+-- as long as the item stayed available.
+CREATE TABLE IF NOT EXISTS products (
+    sku        TEXT NOT NULL,
+    retailer   TEXT NOT NULL,
+    name       TEXT NOT NULL,
+    price      REAL,
+    in_stock   INTEGER NOT NULL,
+    url        TEXT NOT NULL,
+    raw_status TEXT,
+    source     TEXT NOT NULL,
+    first_seen TEXT NOT NULL,
+    last_seen  TEXT NOT NULL,
+    PRIMARY KEY (sku, retailer)
 );
 """
 
@@ -234,6 +251,87 @@ def find(conn: sqlite3.Connection, needle: str) -> list[sqlite3.Row]:
         "SELECT * FROM drops WHERE product_name LIKE ? ORDER BY drop_datetime",
         (f"%{needle}%",),
     ).fetchall()
+
+
+# --- Phase 2: restock detection ------------------------------------------
+
+
+def upsert_products(
+    conn: sqlite3.Connection, products: list[Product], *, commit: bool = True
+) -> list[Product]:
+    """Record stock levels. Returns only genuine restocks worth pinging.
+
+    A restock is a *transition* into stock, not a state of being in stock --
+    otherwise every 15min run would re-ping every available item forever.
+
+    The first time we ever see a retailer we seed silently. Without that, run
+    one would alert on its entire in-stock catalogue: dozens of pings, none of
+    them news, and exactly the notification blowout the doc warns about.
+    """
+    now = _now()
+    restocks: list[Product] = []
+
+    # Snapshot which retailers we'd never seen *before this batch started*.
+    # Computing this per-product inside the loop is wrong: inserting the first
+    # product makes the table non-empty, so every later product in the same
+    # first run looks like a known retailer and alerts. That is the exact
+    # catalogue-flood the seeding rule exists to prevent.
+    seeding = {
+        r
+        for r in {p.retailer for p in products}
+        if conn.execute(
+            "SELECT COUNT(*) FROM products WHERE retailer=?", (r,)
+        ).fetchone()[0]
+        == 0
+    }
+
+    for p in products:
+        prior = conn.execute(
+            "SELECT in_stock FROM products WHERE sku=? AND retailer=?",
+            (p.sku, p.retailer),
+        ).fetchone()
+
+        first_run = p.retailer in seeding
+
+        if prior is None:
+            # New SKU. Worth telling you about if it's buyable now -- unless
+            # this is the seeding run.
+            if p.in_stock and not first_run:
+                restocks.append(p)
+            conn.execute(
+                """INSERT INTO products (sku, retailer, name, price, in_stock, url,
+                       raw_status, source, first_seen, last_seen)
+                   VALUES (?,?,?,?,?,?,?,?,?,?)""",
+                (p.sku, p.retailer, p.name, p.price, int(p.in_stock), p.url,
+                 p.raw_status, p.source, now, now),
+            )
+        else:
+            if p.in_stock and not prior["in_stock"]:
+                restocks.append(p)  # out -> in. This is the signal.
+            conn.execute(
+                """UPDATE products SET name=?, price=?, in_stock=?, url=?,
+                       raw_status=?, source=?, last_seen=?
+                   WHERE sku=? AND retailer=?""",
+                (p.name, p.price, int(p.in_stock), p.url, p.raw_status, p.source,
+                 now, p.sku, p.retailer),
+            )
+
+    if commit:
+        conn.commit()
+    return restocks
+
+
+def status_vocabulary(conn: sqlite3.Connection) -> list[tuple[str, int]]:
+    """Observed values of Best Buy's undocumented `orderable` field, with how
+    often each co-occurs with in_stock. This is how we learn the vocabulary
+    from real data instead of guessing it."""
+    return [
+        (f"{r['raw_status']} (in_stock={r['in_stock']})", r["n"])
+        for r in conn.execute(
+            """SELECT raw_status, in_stock, COUNT(*) AS n FROM products
+               GROUP BY raw_status, in_stock ORDER BY n DESC"""
+        )
+    ]
 
 
 def upcoming(conn: sqlite3.Connection, limit: int = 10) -> list[sqlite3.Row]:

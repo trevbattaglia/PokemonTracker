@@ -17,21 +17,36 @@ latency race. Human does all purchasing, manually, in a normal browser.
 
 ## Status
 
-Phase 1 (drop calendar → Discord) is built. Phase 2 (alert relay) is **not**,
-deliberately — ship Phase 1, use it for two weeks, then decide.
+Phase 1 (drop calendar → Discord) and Phase 2 (restock relay) are both built.
+Phase 2 is **idle until `BESTBUY_API_KEY` is set** — the workflow warns rather
+than failing.
 
 ## How it works
+
+Phase 1 — *when does it come out?*
 
 ```
 serebii → parser → Drop → SQLite (diff) → Discord webhook
 ```
 
-Two crons:
+Phase 2 — *can I buy it right now?*
+
+```
+Best Buy API → parse → dedupe → watchlist filter → restock diff → Discord
+```
+
+Phase 1 tells you a date. Phase 2 is the one you can act on: Pokémon Center had
+every Pitch Black product sold out three days before Pitch Black's own release
+date, so a release-date calendar alone would have pinged you for something
+already gone.
+
+Crons:
 
 | Workflow       | When              | Does                                             |
 | -------------- | ----------------- | ------------------------------------------------ |
 | `calendar.yml` | daily 15:17 UTC   | scrape, diff, post digest of new/rescheduled     |
 | `remind.yml`   | every 15 min      | post any due reminder stage                      |
+| `relay.yml`    | every 15 min      | Phase 2: alert on watchlisted restocks           |
 
 State lives in `data/drops.db`, committed back to the repo by each run because
 Actions runners are ephemeral. The `sent` table is what stops a reminder firing
@@ -81,7 +96,9 @@ python -m pkmn_drops.cli scrape                     # find drops, post digest
 python -m pkmn_drops.cli remind                     # post due reminder stages
 python -m pkmn_drops.cli upcoming                   # what's on the books (no posting)
 python -m pkmn_drops.cli set-time NAME "Y-M-D H:M"  # pin a real drop time
-python -m pkmn_drops.cli --dry-run scrape           # print instead of posting
+python -m pkmn_drops.cli relay                      # Phase 2: check for restocks
+python -m pkmn_drops.cli status-vocab               # observed `orderable` values
+python -m pkmn_drops.cli --dry-run relay            # print instead of posting
 ```
 
 `--dry-run` rolls back its DB writes. It has to: if it committed, the real run
@@ -120,18 +137,61 @@ the "Pokemon TCG" prefix, since it only sells Pokémon and the extra words just
 narrow results. Everywhere else needs the prefix — a bare "Pitch Black" on
 Amazon returns paint.
 
+## Phase 2 — restock relay
+
+Ingests the **official Best Buy Products API**. Not a scraper: it's keyed,
+sanctioned, and allows 5 req/sec and 50k req/day. Three search terms every 15
+minutes is ~288 requests/day. The "no high-frequency polling" non-goal is about
+hammering retailers who never invited you; Best Buy publishes this API and
+documents the quota. Pokémon Center stays off-limits (Incapsula) and Target's
+RedSky is an undocumented internal API, so neither is polled.
+
+Two rules do the real work:
+
+- **Alert on the transition into stock, never on being in stock.** The cron
+  runs every 15min; without this one restock pings you forever.
+- **Seed silently on first contact with a retailer.** Otherwise run one alerts
+  on Best Buy's entire in-stock catalogue at once.
+
+`watchlist.yaml` is the filter. Matching is deliberately dumb — case-insensitive
+substring, no fuzzy logic. A false negative means you miss a drop, so if
+something slips through, add an `exclude` term rather than making the matcher
+clever. An unknown price never satisfies a `max_price` rule: if we can't prove
+it's under budget, we don't claim it is.
+
+### Best Buy's `orderable` field is undocumented
+
+`onlineAvailability` is a documented boolean and is the stock signal.
+`orderable` is recorded in `products.raw_status` but **never branched on** — its
+value vocabulary isn't published, and guessing it means guessing whether an
+alert is real. After a real run:
+
+```bash
+python -m pkmn_drops.cli status-vocab   # learn the vocabulary from real data
+```
+
+### The fixture is synthetic
+
+`tests/fixtures/bestbuy_search.json` was built from the published schema, not
+captured, because getting a key requires creating an account. That breaks this
+project's own rule that fixtures be real. Replace it as soon as a key exists:
+
+```bash
+python -m pkmn_drops.tools.capture_bestbuy > tests/fixtures/bestbuy_search.json
+```
+
+If the real response differs from the schema, `tests/test_bestbuy.py` is where
+it surfaces.
+
 ## Known gaps
 
-- **We track sets, not products.** Serebii lists "Pitch Black"; the things you
-  actually buy are the Elite Trainer Box, Booster Bundle, and Display Box, at
-  different prices and different stock levels. The watchlist idea in the
-  handover doc (`match: "Elite Trainer Box"`, `max_price: 60.00`) needs
-  product-level data that no current source provides.
-- **MSRP is always null** for the same reason — it's per-product, not per-set.
-- **No stock signal.** A drop date is not an in-stock event. Pokémon Center had
-  every Pitch Black product SOLD OUT three days *before* the 7/17 release, so
-  its real buying moment (preorder) had already passed by the time a
-  release-date calendar would fire. This is the strongest argument for Phase 2.
+- **Phase 1 tracks sets; Phase 2 tracks products.** They are not yet joined —
+  a Pitch Black restock doesn't know it belongs to the Pitch Black drop. Fine
+  for now, worth doing if the calendar and relay start disagreeing.
+- **Drop MSRP is always null.** It's per-product, not per-set; Phase 2 has real
+  prices, Phase 1 doesn't.
+- **Best Buy only.** It's the one retailer here with a sanctioned API. Adding a
+  second source is what `dedupe.py` exists for.
 
 ## Source gotchas
 

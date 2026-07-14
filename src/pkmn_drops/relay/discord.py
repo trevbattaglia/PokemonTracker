@@ -10,8 +10,9 @@ from ..config import MAX_ALERTS_PER_RUN, discord_webhook_url
 from . import buylinks
 
 TIMEOUT = 15
-COLOR_NEW = 0xFFCB05      # Pokemon yellow
+COLOR_NEW = 0xFFCB05       # Pokemon yellow
 COLOR_REMINDER = 0xEE1515  # Pokemon red
+COLOR_RESTOCK = 0x3DB39E   # green: buyable right now
 
 
 class DiscordError(RuntimeError):
@@ -108,6 +109,47 @@ def send_reminder(row, stage: str) -> None:
             "embeds": [_embed(row, color=color, title_prefix=prefix)],
         }
     )
+
+
+def send_restocks(products: list) -> None:
+    """Phase 2. Fires when a watchlisted SKU transitions into stock.
+
+    This is the alert that can actually be acted on -- unlike a release-date
+    reminder, the thing is buyable right now.
+    """
+    if not products:
+        return
+
+    if len(products) > MAX_ALERTS_PER_RUN:
+        # Something upstream is broken or we're being spammed. One summary and
+        # mute, rather than blowing up a phone.
+        _post(
+            {
+                "content": (
+                    f"🛒 **{len(products)} restocks at once** — more than expected, "
+                    f"so detail is muted to avoid spam. Check the relay; upstream "
+                    f"may be broken."
+                )
+            }
+        )
+        return
+
+    embeds = []
+    for p in products:
+        fields = [{"name": "Retailer", "value": p.retailer, "inline": True}]
+        if p.price is not None:
+            fields.append({"name": "Price", "value": f"${p.price:.2f}", "inline": True})
+        embeds.append(
+            {
+                "title": f"🛒 {p.name}",
+                "url": p.url,  # straight to the product page: one tap to buy
+                "color": COLOR_RESTOCK,
+                "fields": fields,
+                "footer": {"text": f"{p.source} · sku {p.sku}"},
+            }
+        )
+
+    _post({"content": "🛒 **In stock now**", "embeds": embeds})
 
 
 def send_error(message: str) -> None:
