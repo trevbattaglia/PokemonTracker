@@ -1,0 +1,22 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      # No DISCORD_WEBHOOK_URL here, deliberately: the clients are mocked and
+      # CI must never be able to post to the real channel.
+      - run: pytest -q

@@ -1,0 +1,43 @@
+name: remind
+
+# Fires the actual "drop starting soon" pings.
+#
+# Hourly is enough today: every source we have is date-only, so the only thing
+# this needs to catch is the 08:00-local morning ping. When a source with real
+# drop times lands (Pokemon Center), tighten this to "*/15 * * * *" so the
+# T-30 window is actually hit -- and note that on a private repo a 15-minute
+# cron burns roughly 1,400 of the 2,000 free Actions minutes per month.
+on:
+  schedule:
+    - cron: "8 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkmn-db-write
+  cancel-in-progress: false
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e .
+
+      - name: Send due reminders
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PKMN_TZ: America/Los_Angeles
+        run: python -m pkmn_drops.cli remind
+
+      - name: Persist state
+        uses: ./.github/actions/commit-db
+        with:
+          message: "state: reminders sent"

@@ -1,0 +1,10 @@
+# Secrets. The Discord webhook URL lets anyone post to the channel.
+.env
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

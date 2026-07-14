@@ -1,0 +1,8 @@
+# Never try to merge or diff the state DB as text -- it is binary and a
+# textual merge would corrupt it silently. Conflict resolution is handled by
+# `git rebase -X ours` in .github/actions/commit-db, not by a merge driver.
+data/drops.db binary -diff
+
+# Fixtures are captured verbatim from the source; keep bytes exactly as fetched
+# so encoding bugs show up in tests rather than being normalised away by git.
+tests/fixtures/** -text

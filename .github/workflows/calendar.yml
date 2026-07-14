@@ -1,0 +1,38 @@
+name: calendar
+
+# Daily drop scrape. This is not time-sensitive data -- once a day is plenty,
+# and it keeps us well inside polite scraping territory.
+on:
+  schedule:
+    - cron: "17 15 * * *" # 15:17 UTC daily; off-the-hour to dodge cron congestion
+  workflow_dispatch: # manual "run now" button
+
+permissions:
+  contents: write # to commit the state DB back
+
+concurrency:
+  group: pkmn-db-write # calendar and remind both write data/drops.db
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e .
+
+      - name: Scrape and announce new drops
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PKMN_TZ: America/Los_Angeles
+        run: python -m pkmn_drops.cli scrape
+
+      - name: Persist state
+        uses: ./.github/actions/commit-db
+        with:
+          message: "state: daily scrape"

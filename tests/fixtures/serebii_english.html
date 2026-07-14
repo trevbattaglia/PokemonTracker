@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Serebii.net TCG Cardex - English Sets</title>
+
+<script data-cfasync="false">
+  window.ramp = window.ramp || {};
+  window.ramp.que = window.ramp.que || [];
+</script>
+
+<meta http-equiv="imagetoolbar" CONTENT="no">
+	<link rel="stylesheet" type="text/css" href="/style/layout.css" />
+<meta name="viewport" content="width=device-width,initial-scale=1" id="viewport-meta">
+
+<!-- GDPR Compliancy -->
+<style>
+body {
+	--cmpBgColor: #507C36;
+	--cmpTextColor: #000000;
+	--cmpLinkColor: #ffffff;
+	--cmpPurposesColor: #000000;
+	--cmpBrandColor: #000000;
+	--cmpLogo: url('https://www.serebii.net/extralogo.png');
+}
+</style>
+<!-- GDPR Compliancy -->
+
+<link rel="search" href="/serebii-opensearch.xml" type="application/opensearchdescription+xml" title="Serebii Open Search" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128947957-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-128947957-1');
+</script>
+<!-- Place the below code anywhere you like in the <head> (higher is better) -->
+
+
+
+
+<link rel="stylesheet" href="/style/tablenew.css" type="text/css" media="screen" />
+
+</head>
+<body>
+<script type="text/javascript">
+	var viewport_meta = document.getElementById('viewport-meta');
+	var viewport_timer;
+
+	// these body*Class are reused in the lbar mobile menu
+	function bodyAddClass(className){
+		if(document.body) document.body.classList.add(className);
+	}
+	function bodyRemoveClass(className){
+		if(document.body) document.body.className = document.body.className.replace(className,"");
+	}
+
+	function viewport_set() {
+		// Define our viewport meta values
+		var viewports = {
+			default: viewport_meta.getAttribute('content'),
+			mobileL: 'width=device-width,initial-scale=0.75',
+			mobileM: 'width=device-width,initial-scale=0.5',
+			mobileS: 'width=device-width,initial-scale=0.4'
+		};
+
+		// Change the viewport value based on screen.width
+		if(screen.width < 370){
+			viewport_meta.setAttribute('content', viewports.mobileS);
+			bodyAddClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		} else if(screen.width < 505){
+			viewport_meta.setAttribute('content', viewports.mobileM);
+			bodyRemoveClass("nav_mobileS");
+			bodyAddClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		} else if (screen.width < 760){
+			viewport_meta.setAttribute('content', viewports.mobileL);
+			bodyRemoveClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyAddClass("nav_mobileL");
+		} else{
+			viewport_meta.setAttribute('content', viewports.default);
+			bodyRemoveClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		}
+	}
+
+	// Set the correct viewport value on page load
+	viewport_set();
+
+	/* attach listener to (delay) set the correct viewport after device orientation change or resize. also onload so the nav_mobile* class gets added to body AFTER <body> has loaded */
+	if(window.addEventListener){
+		window.addEventListener('load', viewport_set);
+		window.addEventListener('resize', function(){
+			clearTimeout(viewport_timer);
+			viewport_timer = setTimeout(viewport_set, 100);
+		})
+	} else{
+		window.attachEvent('onload', viewport_set)
+		window.attachEvent('onresize', function(){
+			clearTimeout(viewport_timer);
+			viewport_timer = setTimeout(viewport_set, 100);
+		})
+	}
+
+</script>
+
+
+<header id="header">
+	<div class="banner">
+		<a href="/"><img src="/Banner.jpg" alt="Serebii.net Header" style="height:139px"></a>
+	</div>
+
+	<nav class="quicklinks">
+		<ul>
+			<li><b>Quick Links</b></li>
+			<li><a href="/index2.shtml">Home</a></li>
+			<li><a href="https://forums.serebii.net/" target="blank">Forums</a></li>
+			<li><a href="mailto:webmaster@serebii.net">Contact</a></li>
+			<li><a href="/discord.shtml">Discord</a></li>
+			<li><a href="/pokemon">Pokédex Hub</a></li>
+			<li><a href="/pokedex-sv">Scarlet & Violet Pokédex</a></li>
+			<li><a href="/pokedex-champions">Champions Pokédex</a></li>
+			<li><a href="/pokearth">Pokéarth</a></li>
+
+			<li class="search">
+				<form id="searchbox_018410473690156091934:6gahkiyodbi" action="/search.shtml" style="margin:0px;">
+					<input type="hidden" name="cx" value="018410473690156091934:6gahkiyodbi" />
+					<input type="hidden" name="cof" value="FORID:11" />
+					<input name="q" type="text" size="20" />
+					<input type="submit" name="sa" value="Search" />
+				</form>
+				<script type="text/javascript" src="//www.google.com/coop/cse/brand?form=searchbox_018410473690156091934%3A6gahkiyodbi"></script>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+
+<div id="wrapper">
+
+<ul id="tbar_sticky">
+	<li>
+		<a href="#lbar" class="navheader" id="tbar_lbar_open"><img src="/hidden/2019-04/burger.svg"></a>
+	</li>
+	<li>
+		<form id="searchbox_018410473690156091934:6gahkiyodbi" action="/search.shtml" style="margin:0px;">
+			<input type="hidden" name="cx" value="018410473690156091934:6gahkiyodbi" />
+			<input type="hidden" name="cof" value="FORID:11" />
+			<input name="q" type="search" placeholder="Search Serebii.net..." />
+		</form>
+	</li>
+	<li>
+		<a href="#rbar" class="navheader" id="tbar_rbar_open" style="padding-right:20px"><img src="/hidden/2019-04/burger.svg"></a>
+	</li>
+</ul>
+<div id="tbar_backdrop"></div>
+
+<nav id="lbar">
+	<ul id="lbar_ul">
+		<li>
+			<a href="/" class="navheader">Databases</a>
+			<ul>
+				<li><a href="/index2.shtml">News</a>
+				<li><a href="/archive.shtml">Archived news</a></li>
+				<li><a href="/pokemon/"><b>Pokédex</b></a></li>
+				<li><a href="/pokedex/">-Red/Blue Pokédex</a></li>
+				<li><a href="/pokedex-gs/">-Gold/Silver Pokédex</a></li>
+				<li><a href="/pokedex-rs/">-Ruby/Sapphire Pokédex</a></li>
+				<li><a href="/pokedex-dp/">-Diamond/Pearl Pokédex</a></li>
+				<li><a href="/pokedex-bw/">-Black/White Pokédex</a></li>
+				<li><a href="/pokedex-xy/">-X & Y Pokédex</a></li>
+				<li><a href="/pokedex-sm/">-Sun & Moon Pokédex</a></li>
+				<li><a href="/pokedex-sm/">-Let's Go Pokédex</a></li>
+				<li><a href="/pokedex-swsh/">-Sword & Shield Pokédex</a></li>
+				<li><a href="/pokedex-swsh/">-BDSP Pokédex</a></li>
+				<li><a href="/pokedex-swsh/">-Legends: Arceus Pokédex</a></li>
+				<li><a href="/pokemongo/pokemon/">-GO Pokédex</a></li>
+				<li><a href="/pokedex-sv/">-Scarlet & Violet Pokédex</a></li>
+				<li><a href="/pokedex-sv/">-Legends: Z-A Pokédex</a></li>
+				<li><a href="/pokedex-champions/">-Champions Pokédex</a></li>
+
+				<li><strong>Attackdex</strong></li>
+				<li><a href="/attackdex-rby/">-Gen 1 Attackdex</a></li>
+				<li><a href="/attackdex-gs/">-Gen 2 Attackdex</a></li>
+				<li><a href="/attackdex/">-Gen 3 Attackdex</a></li>
+				<li><a href="/attackdex-dp/">-Gen 4 Attackdex</a></li>
+				<li><a href="/attackdex-bw/">-Gen 5 Attackdex</a></li>
+				<li><a href="/attackdex-xy/">-Gen 6 Attackdex</a></li>
+				<li><a href="/attackdex-sm/">-Gen 7 Attackdex</a></li>
+				<li><a href="/attackdex-swsh/">-Gen 8 Attackdex</a></li>
+				<li><a href="/attackdex-sv/">-Gen 9 Attackdex</a></li>
+				<li><a href="/attackdex-champions/">-Champions Attackdex</a></li>
+				<li><a href="/itemdex/">ItemDex</a></li>
+				<li><a href="/pokearth/">Pokéarth</a></li>
+				<li><a href="/abilitydex/">Abilitydex</a></li>
+				<li><a href="/spindex/">Spin-Off Pokédex</a></li>
+				<li><a href="/spindex-dp/">Spin-Off Pokédex DP</a></li>
+				<li><a href="/spindex-bw/">Spin-Off Pokédex BW</a></li>
+				<li><a href="/card/dex/">Cardex</a></li>
+				<li><a href="/movies/dex/">Cinematic Pokédex</a></li>
+				<li><a href="/games/mechanics.shtml">Game Mechanics</a></li>
+				<li><a href="/games/iv-calcsv.shtml">-Scarlet/Violet IV Calc.</a></li>
+				<li><a href="/potw-champions">Pokémon of the Week</a></li>
+				<li><a href="/potw-champions/">-Champions</a></li>
+				<li><a href="/potw-sv/">-9th Gen</a></li>
+				<li><a href="/potw-swsh/">-8th Gen</a></li>
+				<li><a href="/potw-sm/">-7th Gen</a></li>
+				<li><a href="/pokemon/timeline.shtml">Pokémon Timeline</a></li>
+				<li><a href="/pokemoncenter/">Pokémon Centers</a></li>
+				<li><a href="/playpokemon">Pokémon Championship Series</a></li>
+				<li><a href="/pokemonxp/">PokémonXP</a></li>
+
+				<li><a href="/music/projectvoltage">Hatsune Miku Project Voltage</a></li>
+				<li><a href="/museums/">Pokémon in Museums & Exhibitions</a></li>
+				<li><a href="/pokemon/vangoghmuseum/">-Pokémon x Van Gogh</a></li>
+				<li><a href="/pokemonday/">Pokémon Day</a></li>
+				<li><a href="/presentations">Pokémon Presentations</a></li>
+				<li><a href="/lego/">LEGO Pokémon</a></li>
+				<li><a href="/pokemonshirts/">Pokémon Shirts</a></li>
+				<li><a href="/themeparks/">Theme Parks</a></li>
+				<li><a href="https://forums.serebii.net" target="blank">Forums</a></li>
+				<li><a href="/discord.shtml">Discord Chat</a></li>		
+				<li><a href="/games/currentevents.shtml">Current & Upcoming Events</a></li>
+				<li><a href="/events">Event Database</a></li>
+				<li><a href="/scarletviolet/pokemon.shtml">9th Generation Pokémon</a></li>
+				<li><a href="/scarletviolet/dlc-pokemon.shtml">-New Pokémon in DLC</a></li>
+				<li><a href="/scarletviolet/paldeanforms.shtml">-Paldean Form Pokémon</a></li>
+
+			</ul>
+		</li>
+
+
+		<li>
+			<a href="/anime/" class="navheader">Anime & TV</a>
+			<ul>
+				<li><a href="/anime/epiguide/">Episode Listings & Pictures</a></li>
+				<li><a href="/anime/dex/">AniméDex</a></li>
+				<li><a href="/anime/characters/">Character Bios</a></li>
+				<li><a href="/anime/epiguide/indigo/">The Indigo League</a></li>
+				<li><a href="/anime/epiguide/orange/">The Orange League</a></li>
+				<li><a href="/anime/epiguide/johto/">The Johto Saga</a></li>
+				<li><a href="/anime/epiguide/houen/">The Saga in Hoenn!</a></li>
+				<li><a href="/anime/epiguide/kanto/">Kanto Battle Frontier Saga!</a></li>
+				<li><a href="/anime/epiguide/shinou/">The Sinnoh Saga!</a></li>
+				<li><a href="/anime/epiguide/bestwishes/">Best Wishes - Unova Saga</a></li>
+				<li><a href="/anime/epiguide/xy/">XY - Kalos Saga</a></li>
+				<li><a href="/anime/epiguide/sunmoon/">Sun & Moon - Alola Saga</a></li>
+				<li><a href="/anime/epiguide/pokemon/">Pokémon Journeys - Galar Saga</a></li>
+				<li><a href="/anime/epiguide/pokemonmaster/">Pokémon Aim To Be A Pokémon Master</a></li>
+				<li><a href="/anime/epiguide/pokemon2023/">Pokémon Horizons - Paldea Saga</a></li>
+				<li><a href="/anime/epiguide/chronicles/">Pokémon Chronicles</a></li>	
+				<li><a href="/anime/epiguide/specials/">The Special Episodes</a></li>
+				<li><a href="/anime/banned.shtml">The Banned Episodes</a></li>
+				<li><a href="/anime/shiny/">Shiny Pokémon</a></li>
+<li><b>Other Web Series</b></li>
+				<li><a href="/anime/epiguide/generations/">Pokémon Generations</a></li>
+				<li><a href="/anime/epiguide/twilightwings/">Pokémon Twilight Wings</a></li>
+				<li><a href="/anime/epiguide/evolutions/">Pokémon Evolutions</a></li>
+				<li><a href="/anime/hisuiansnow/">Pokémon: Hisuian Snow</a></li>
+				<li><a href="/anime/paldeanwinds/">Pokémon: Paldean Winds</a></li>
+				<li><a href="/anime/poketoon/">PokéToon</a></li>
+				<li><a href="/anime/other/pathtothepeak/">Path to the Peak</a></li>
+				<li><a href="/anime/other/pokeminutes/">PokéMinutes</a></li>
+				<li><a href="/anime/other/pokevideodex/">PokéVideoDex</a></li>
+				<li><a href="/anime/other/goodmorningwithpokemon/">Good Morning with Pokémon</a></li>
+				<li><a href="/anime/other/">Other Animations</a></li>
+				<li><b>Other Series</b></li>
+				<li><a href="/pokemonconcierge/">Pokémon Concierge</a></li>
+				<li><a href="/pokemontales/">Pokémon Tales: The Misadventures of Sirfetch'd & Pichu</a></li>
+
+				<li><b>Live Action</b></li>
+				<li><a href="/poketsume/">PokéTsume</a></li>
+
+
+			</ul>
+		</li>
+
+		<li>
+			<a href="/games/" class="navheader">Video Games</a>
+			<ul>
+				<li><a href="/pokemon/generation10.shtml"><b>Gen X</b></li>
+				<li><a href="/windswaves/">Winds & Waves</a></li>
+
+				<li><a href="/pokemon/generation9.shtml"><b>Gen IX</b></a></li>
+				<li><a href="/scarletviolet/">Scarlet & Violet</a></li>
+				<li><a href="/legendsz-a/">Legends: Z-A</a></li>
+				<li><a href="/pokemonchampions/">Pokémon Champions</a></li>
+				<li><a href="/pokemonpokopia/">Pokémon Pokopia</a></li>
+				<li><a href="/pokemonfriends/">Pokémon Friends</a></li>
+				<li><a href="/pokemongo/">Pokémon GO</a></li>
+				<li><a href="/cafemix/">Pokémon Café ReMix</a></li>
+				<li><a href="/pokemonmasters/">Pokémon Masters EX</a></li>
+				<li><a href="/pokemonunite/">Pokémon UNITE</a></li>
+				<li><a href="/pokemonsleep/">Pokémon Sleep</a></li>
+				<li><a href="/detectivepikachureturns/">Detective Pikachu Returns</a></li>
+				<li><a href="/tcgpocket/">Pokémon TCG Pocket</a></li>
+
+				<li><a href="/pokemon/generation8.shtml"><b>Gen VIII</b></a></li>
+				<li><a href="/swordshield/">Sword & Shield</a></li>
+				<li><a href="/brilliantdiamondshiningpearl/">Brilliant Diamond & Shining Pearl</a></li>
+				<li><a href="/legendsarceus/">Pokémon Legends: Arceus</a></li>
+				<li><a href="/pokemonhome/">Pokémon HOME</a></li>
+				<li><a href="/pokemongo/">Pokémon GO</a></li>
+				<li><a href="/pokemonmasters/">Pokémon Masters EX</a></li>
+				<li><a href="/dungeonrescueteamdx/">Pokémon Mystery Dungeon Rescue Team DX</a></li>
+				<li><a href="/pokemonsmile/">Pokémon Smile</a></li>
+				<li><a href="/cafemix/">Pokémon Café ReMix</a></li>
+				<li><a href="/newpokemonsnap/">New Pokémon Snap</a></li>
+				<li><a href="/pokemonunite/">Pokémon UNITE</a></li>
+				<li><a href="/tcglive/">Pokémon TCG Live</a></li>
+
+				<li><a href="/pokemon/generation7.shtml"><b>Gen VII</b></a></li>
+				<li><a href="/sunmoon/">Sun & Moon</a></li>
+				<li><a href="/ultrasunultramoon/">Ultra Sun & Ultra Moon</a></li>
+				<li><a href="/letsgopikachueevee/">Let's Go, Pikachu! & Let's Go, Eevee!</a></li>
+				<li><a href="/pokemongo/">Pokémon GO</a></li>
+				<li><a href="/magikarpjump/">Pokémon: Magikarp Jump</a></li>
+				<li><a href="/rumblerush/">Pokémon Rumble Rush</a></li>
+				<li><a href="/pokkendx/">Pokkén Tournament DX</a></li>
+				<li><a href="/detective/">Detective Pikachu</a></li>
+				<li><a href="/quest/">Pokémon Quest</a></li>
+				<li><a href="/smashbrosultimate/">Super Smash Bros. Ultimate</a></li>
+				<li><a href="/pokemon/generation6.shtml"><b>Gen VI</b></a></li>
+				<li><a href="/xy/">X & Y</a></li>
+				<li><a href="/omegarubyalphasapphire/">Omega Ruby & Alpha Sapphire</a></li>
+				<li><a href="/bank/">Pokémon Bank</a></li>
+				<li><a href="/battletrozei/">Pokémon Battle TrozeiPokémon Link: Battle</a></li>
+				<li><a href="/artacademy/">Pokémon Art Academy</a></li>
+				<li><a href="/bandofthieves/">The Band of Thieves & 1000 Pokémon</a></li>
+				<li><a href="/shuffle/">Pokémon Shuffle</a></li>
+				<li><a href="/rumbleworld/">Pokémon Rumble World</a></li>
+				<li><a href="/supermysterydungeon/">Pokémon Super Mystery Dungeon</a></li>
+				<li><a href="/picross/">Pokémon Picross</a></li>
+				<li><a href="/detective/">Detective Pikachu</a></li>
+				<li><a href="/pokken/">Pokkén Tournament</a></li>
+				<li><a href="/duel/">Pokémon Duel</a></li>
+				<li><a href="/smashbros3dswiiu/">Smash Bros for 3DS/Wii U</a></li>
+				<li><a href="/games/badge/">Nintendo Badge Arcade</a></li>
+				<li><a href="/pokemon/generation5.shtml"><b>Gen V</b></a></li>
+				<li><a href="/blackwhite/">Black & White</a></li>
+				<li><a href="/black2white2/">Black 2 & White 2</a></li>
+				<li><a href="/dreamradar/">Pokémon Dream Radar</a></li>
+				<li><a href="/trettalab/">Pokémon Tretta Lab</a></li>
+				<li><a href="/rumbleu/">Pokémon Rumble U</a></li>
+				<li><a href="/dungeoninfinity/">Mystery Dungeon: Gates to Infinity</a></li>
+				<li><a href="/conquest/">Pokémon Conquest</a></li>
+				<li><a href="/pokepark2/">PokéPark 2: Wonders Beyond</a></li>
+				<li><a href="/rumble2/">Pokémon Rumble Blast</a></li>
+				<li><a href="/pokedex3d/">Pokédex 3D</a></li>
+				<li><a href="/pokedex3dpro/">Pokédex 3D Pro</a></li>
+				<li><a href="/typingds/">Learn With Pokémon: Typing Adventure</a></li>
+				<li><a href="/card/howtoplayds/">TCG How to Play DS</a></li>
+				<li><a href="/pokedexios/">Pokédex for iOS</a></li>
+				<li><a href="/pokemon/generation4.shtml"><b>Gen IV</b></a></li>
+				<li><a href="/diamondpearl/">Diamond & Pearl</a></li>
+				<li><a href="/platinum/">Platinum</a></li>
+				<li><a href="/heartgoldsoulsilver/">Heart Gold & Soul Silver</a></li>
+				<li><a href="/ranger3/">Pokémon Ranger: Guardian Signs</a></li>
+				<li><a href="/melee/">Pokémon Rumble</a></li>
+				<li><a href="/dungeon3/">Mystery Dungeon: Blazing, Stormy & Light Adventure Squad</a></li>
+				<li><a href="/pokepark/">PokéPark Wii - Pikachu's  Adventure</a></li>
+				<li><a href="/battle/">Pokémon Battle Revolution</a></li>
+				<li><a href="/dungeonsky/">Mystery Dungeon - Explorers of Sky</a></li>
+				<li><a href="/ranger2/">Pokémon Ranger: Shadows of Almia</a></li>
+				<li><a href="/dungeon2/">Mystery Dungeon - Explorers of Time & Darkness</a></li>
+				<li><a href="/ranch/">My Pokémon Ranch</a></li>
+				<li><a href="/ssbb/">Smash Bros Brawl</a></li>
+				<li><a href="/pokemon/generation3.shtml"><b>Gen III</b></a></li>
+				<li><a href="/rubysapphire/">Ruby & Sapphire</a></li>
+				<li><a href="/fireredleafgreen/">Fire Red & Leaf Green</a></li>
+				<li><a href="/emerald/">Emerald</a></li>
+				<li><a href="/colosseum/">Pokémon Colosseum</a></li>
+				<li><a href="/xd/">Pokémon XD: Gale of Darkness</a></li>
+				<li><a href="/dash/">Pokémon Dash</a></li>
+				<li><a href="/pokemon_channel/">Pokémon Channel</a></li>
+				<li><a href="/pokemon_box/">Pokémon Box: RS</a></li>
+				<li><a href="/pinball_rs/">Pokémon Pinball RS</a></li>
+				<li><a href="/ranger/">Pokémon Ranger</a></li>
+				<li><a href="/mysteriousdungeon/">Mystery Dungeon Red & Blue</a></li>
+				<li><a href="/torouze/">PokémonTrozei</a></li>
+				<li><a href="/pikachu/">Pikachu DS Tech Demo</a></li>
+				<li><a href="/pokeparkfish/">PokéPark Fishing Rally</a></li>
+				<li><a href="/e-reader/">The E-Reader</a></li>
+				<li><a href="/pokemate/">PokéMate</a></li>
+				<li><a href="/pokemon/generation2.shtml"><b>Gen II</b></a></li>
+				<li><a href="/gs/">Gold/Silver</a></li>
+				<li><a href="/crystal/">Crystal</a></li>
+				<li><a href="/stadium2/">Pokémon Stadium 2</a></li>
+				<li><a href="/puzzlechallenge/">Pokémon Puzzle Challenge</a></li>
+				<li><a href="/mini/">Pokémon Mini</a></li>
+				<li><a href="/smash_bros_2/">Super Smash Bros. Melee</a></li>
+				<li><a href="/pokemon/generation1.shtml"><b>Gen I</b></a></li>
+				<li><a href="/rb/">Red, Blue & Green</a></li>
+				<li><a href="/yellow/">Yellow</a></li>
+				<li><a href="/puzzleleague/">Pokémon Puzzle League</a></li>
+				<li><a href="/snap/">Pokémon Snap</a></li>
+				<li><a href="/pinball/">Pokémon Pinball</a></li>
+				<li><a href="/stadiumjp/">Pokémon Stadium (Japanese)</a></li>
+				<li><a href="/stadium/">Pokémon Stadium</a></li>
+				<li><a href="/tradingcardgamegb/">Pokémon Trading Card Game GB</a></li>
+				<li><a href="/smash_bros/">Super Smash Bros.</a></li>
+
+				<li><strong>Miscellaneous</strong></li>
+				<li><a href="/games/mechanics.shtml">Game Mechanics</a></li>
+				<li><a href="/playpokemon">Pokémon Championship Series</a></li>
+				<li><a href="/games/others.shtml">In Other Games</a></li>
+				<li><a href="/games/virtualconsole.shtml">Virtual Console</a></li>
+				<li><a href="/games/consoles.shtml">Special Edition Consoles</a></li>
+				<li><a href="/games/themes.shtml">Pokémon 3DS Themes</a></li>
+				<li><a href="/apps">Smartphone & Tablet Apps</a></li>
+				<li><a href="/virtualpet">Virtual Pets</a></li>
+				<li><a href="/amiibo">amiibo</a></li>
+				<li><a href="/nintendoswitchonline/">Nintendo Switch Online & Icons</a></li>
+				<li><strong>Board Game</strong></li>
+				<li><a href="/pokemongoita">Pokémon Goita</a></li>
+				<li><strong>Arcade</strong></li>
+				<li><a href="/frienda">Pokémon FRIENDA</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="/manga/" class="navheader">Manga</a>
+			<ul>
+				<li><a href="/manga/">General Information</a>
+				<li><a href="/manga/dex">MangaDex</a></li>
+				<li><a href="/manga/characters">Character BIOs</a></li>
+				<li><a href="/manga/characters-new">Detailed BIOs</a></li>
+				<li><a href="/manga/chapter.shtml">Chapter Guides</a></li>
+				<li><a href="/manga/volume.shtml">Volume Guides</a></li>
+				<li><a href="/manga/rby/">RBG Series</a></li>
+				<li><a href="/manga/yellow/">Yellow Series</a></li>
+				<li><a href="/manga/gsc/">GSC Series</a></li>
+				<li><a href="/manga/rs/">RS Series</a></li>
+				<li><a href="/manga/frlg/">FRLG Series</a></li>
+				<li><a href="/manga/bf/">Emerald Series</a></li>
+				<li><a href="/manga/dp/">DP Series</a></li>
+				<li><a href="/manga/pt/">Platinum Series</a></li>
+				<li><a href="/manga/hgss/">HGSS Series</a></li>
+				<li><a href="/manga/bw/">BW Series</a></li>
+				<li><a href="/manga/b2w2/">B2W2 Series</a></li>
+				<li><a href="/manga/xy/">XY Series</a></li>
+				<li><a href="/manga/oras/">ORAS Series</a></li>
+				<li><a href="/manga/sunmoon/">SM Series</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="/movies/" class="navheader">Movies</a>
+			<ul>
+				<li><strong>Anime</strong></li>
+				<li><a href="/movies/mewtwo/origin/">The Origin of Mewtwo</a></li>
+				<li><a href="/movies/mewtwo/">Mewtwo Strikes Back</a></li>
+				<li><a href="/movies/lugia/">The Power of One</a></li>
+				<li><a href="/movies/entei/">Spell Of The Unown</a></li>
+				<li><a href="/anime/epiguide/specials/002.shtml">Mewtwo Returns</a></li>
+				<li><a href="/movies/serebii/">Celebi: Voice of the Forest</a></li>
+				<li><a href="/movies/latias_latios/">Pokémon Heroes</a></li>
+				<li><a href="/movies/jirachi/">Jirachi - Wish Maker</a></li>
+				<li><a href="/movies/deoxys/">Destiny Deoxys!</a></li>
+				<li><a href="/movies/mew/">Lucario and the Mystery of Mew!</a></li>
+				<li><a href="/movies/kyogre/">Pokémon Ranger & The Temple of the Sea!</a></li>
+				<li><a href="/movies/dp/">The Rise of Darkrai!</a></li>
+				<li><a href="/movies/giratina/">Giratina & The Sky Warrior!</a></li>
+				<li><a href="/movies/arceus/">Arceus and the Jewel of Life</a></li>
+				<li><a href="/movies/celebi/">Zoroark - Master of Illusions</a></li>
+				<li><a href="/movies/victini/">Black: Victini & ReshiramWhite: Victini & Zekrom</a></li>
+				<li><a href="/movies/kyurem/">Kyurem VS The Sword of Justice</a></li>
+				<li><a href="/movies/meloetta/">-Meloetta's Midnight Serenade</a></li>
+				<li><a href="/movies/genesect/">Genesect and the Legend Awakened</a></li>
+				<li><a href="/movies/xy/">Diancie & The Cocoon of Destruction</a></li>
+				<li><a href="/movies/hoopa/">Hoopa & The Clash of Ages</a></li>
+				<li><a href="/movies/volcanion/">Volcanion and the Mechanical Marvel</a></li>
+				<li><a href="/movies/pokemon20/">Pokémon I Choose You!</a></li>
+				<li><a href="/movies/thepowerofus/">Pokémon The Power of Us</a></li>
+				<li><a href="/movies/mewtwoevolution/">Mewtwo Strikes Back Evolution</a></li>
+				<li><a href="/movies/secretsofthejungle/">Secrets of the Jungle</a></li>
+				<li><strong>Live Action</strong></li>
+				<li><a href="/movies/detectivepikachu/">Pokémon Detective Pikachu</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="/movies/" class="navheader">Pikachu Shorts</a>
+			<ul>
+				<li><a href="/movies/pikachu1/">Pikachu's Summer Vacation</a></li>
+				<li><a href="/movies/pikachu2/">Pikachu's Rescue Adventure</a></li>
+				<li><a href="/movies/pikachu3/">Pikachu And Pichu</a></li>
+				<li><a href="/movies/pikachu4/">Pikachu's PikaBoo</a></li>
+				<li><a href="/movies/pikachu5/">Camp Pikachu!</a></li>
+				<li><a href="/movies/pikachu6/">Gotta Dance!!</a></li>
+				<li><a href="/movies/pikachu7/">Pikachu's Summer Festival!</a></li>
+				<li><a href="/movies/pikachu8/">Pikachu's Ghost Festival!</a></li>
+				<li><a href="/movies/pikachu9/">Pikachu's Island Adventure!</a></li>
+				<li><a href="/movies/pikachu10/">Pikachu's Exploration Club</a></li>
+				<li><a href="/movies/pikachu11/">Pikachu's Great Ice Adventure</a></li>
+				<li><a href="/movies/pikachu12/">Pikachu's Sparkling Search</a></li>
+				<li><a href="/movies/pikachu13/">Pikachu's Really Mysterious Adventure</a></li>
+				<li><a href="/movies/eevee/">Eevee & Friends</a></li>
+				<li><a href="/movies/klefki/">Pikachu, What's This Key?</a></li>
+				<li><a href="/movies/pikachumusic/">Pikachu & The Pokémon Music Squad</a></li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="/card/" class="navheader">Trading Cards</a>
+			<ul>
+				<li><a href="/tcglive/">Pokémon TCG Live</a></li>
+				<li><a href="/card/dex/">Cardex</a></li>
+				<li><a href="/card/dex/extra">-Extra Pokémon Types</a></li>
+				<li><a href="/card/dex/trainers">Trainer Cards</a></li>
+				<li><a href="/card/dex/energy">Energy Cards</a></li>
+				<li><a href="/card/dex/extra/altart.shtml">Alternate Art Cards</a></li>
+				<li><a href="/card/raidbattles">Raid Battles</a></li>
+				<li><a href="/card/classic/">Pokémon TCG Classic</a></li>
+				<li><a href="/card/english.shtml"><b>English Sets</b></a></li>
+				<li><a href="/card/deltareign/">-Delta Reign</a></li>
+				<li><a href="/card/30thcelebration/">-30th Celebration</a></li>
+				<li><a href="/card/pitchblack/">-Pitch Black</a></li>
+				<li><a href="/card/chaosrising/">-Chaos Rising</a></li>
+				<li><a href="/card/perfectorder/">-Perfect Order</a></li>
+				<li><a href="/card/ascendedheroes/">-Ascended Heroes</a></li>
+				<li><a href="/card/phantasmalflames/">-Phantasmal Flames</a></li>
+				<li><a href="/card/megaevolution/">-Mega Evolution</a></li>
+				<li><a href="/card/blackbolt/">-Black Bolt</a></li>
+				<li><a href="/card/whiteflare/">-White Flare</a></li>
+				<li><a href="/card/destinedrivals/">-Destined Rivals</a></li>
+				<li><a href="/card/journeytogether/">-Journey Together</a></li>
+				<li><a href="/card/prismaticevolutions/">-Prismatic Evolutions</a></li>
+				<li><a href="/card/surgingsparks/">-Surging Sparks</a></li>
+				<li><a href="/card/stellarcrown/">-Stellar Crown</a></li>
+				<li><a href="/card/shroudedfable/">-Shrouded Fable</a></li>
+				<li><a href="/card/twilightmasquerade/">-Twilight Masquerade</a></li>
+				<li><a href="/card/temporalforces/">-Temporal Forces</a></li>
+				<li><a href="/card/paldeanfates/">-Paldean Fates</a></li>
+				<li><a href="/card/paradoxrift/">-Paradox Rift</a></li>
+				<li><a href="/card/151/">-151</a></li>
+				<li><a href="/card/obsidianflames/">-Obsidian Flames</a></li>
+				<li><a href="/card/paldeaevolved/">-Paldea Evolved</a></li>
+				<li><a href="/card/scarletviolet/">-Scarlet Violet</a></li>
+				<li><a href="/card/swsh.shtml">-SWSH Series</a></li>
+				<li><a href="/card/sm.shtml">-SM Series</a></li>
+				<li><a href="/card/xy.shtml">-XY Series</a></li>
+				<li><a href="/card/bw.shtml">-BW Series</a></li>
+				<li><a href="/card/dpt.shtml">-DPtHS Series</a></li>
+				<li><a href="/card/ex.shtml">-EX Series</a></li>
+				<li><a href="/card/neo.shtml">-Neo/eSeries</a></li>
+				<li><a href="/card/first.shtml">-First Gen Series</a></li>
+				<li><a href="/card/engpromo.shtml"><b>English Promos</b></a></li>
+				<li><a href="/card/megapromos">-Mega Promos</a></li>
+				<li><a href="/card/svpromos">-SV Promos</a></li>
+				<li><a href="/card/swshpromos">-SWSH Promos</a></li>
+				<li><a href="/card/smpromos">-SM Promos</a></li>
+				<li><a href="/card/xypromos">-XY Promos</a></li>
+				<li><a href="/card/popseries.shtml">-POP Series</a></li>
+				<li><a href="/card/japanese.shtml"><b>Japanese Sets</b></a></li>
+				<li><a href="/card/abysseye/">-Abyss Eye</a></li>
+				<li><a href="/card/ninjaspinner/">-Ninja Spinner</a></li>
+				<li><a href="/card/nihilzero/">-Nihil Zero</a></li>
+				<li><a href="/card/megadreamex/">-Mega Dream ex</a></li>
+				<li><a href="/card/infernox/">-Inferno X</a></li>
+				<li><a href="/card/megabrave/">-Mega Brave</a></li>
+				<li><a href="/card/megasymphonia/">-Mega Symphonia</a></li>
+				<li><a href="/card/blackbolt-jp/">-Black Bolt</a></li>
+				<li><a href="/card/whiteflare-jp/">-White Flare</a></li>
+				<li><a href="/card/gloryofteamrocket/">-Glory of Team Rocket</a></li>
+				<li><a href="/card/hotairarena/">-Hot Air Arena</a></li>
+				<li><a href="/card/battlepartners/">-Battle Partners</a></li>
+				<li><a href="/card/terastalfestivalex/">-Terastal Festival ex</a></li>
+				<li><a href="/card/superelectricbreaker/">-Super Electric Breaker</a></li>
+				<li><a href="/card/paradisedragona/">-Paradise Dragona</a></li>
+				<li><a href="/card/stellarmiracle/">-Stellar Miracle</a></li>
+				<li><a href="/card/nightwanderer/">-Night Wanderer</a></li>
+				<li><a href="/card/maskofchange/">-Mask of Change</a></li>
+				<li><a href="/card/crimsonhaze/">-Crimson Haze</a></li>
+				<li><a href="/card/wildforce/">-Wild Force</a></li>
+				<li><a href="/card/cyberjudge/">-Cyber Judge</a></li>
+				<li><a href="/card/vstaruniverse/">-VSTAR Universe</a></li>
+				<li><a href="/card/vs">-Pokémon VS</a></li>
+				<li><a href="/card/jppromo.shtml"><b>Japanese Promos</b></a></li>
+				<li><a href="/card/svpromo">-SV Promos</a></li>
+				<li><a href="/card/spromo">-S Promos</a></li>
+				<li><a href="/card/smpromo">-SM Promos</a></li>
+
+			</ul>
+		</li>
+	</ul>
+</nav>
+
+
+<script type="text/javascript">
+
+function loadMobileLbar(){
+	var tbar_lbar_open=document.getElementById('tbar_lbar_open'),
+		tbar_backdrop=document.getElementById('tbar_backdrop'),
+		lbar=document.getElementById('lbar'),
+		lbarLIs=document.querySelectorAll("#lbar_ul>li .navheader"),
+		lbarLIULs=document.querySelectorAll("#lbar_ul>li>ul");
+
+	/* lbar display/hide */
+	tbar_lbar_open.onclick=function() {
+		if (lbar.className.indexOf("show") > -1){//hide
+			lbar.className = lbar.className.replace("show","");
+			bodyRemoveClass("nav_modal");
+		} else{//show
+			lbar.classList.add("show");
+			bodyAddClass("nav_modal");
+		}
+
+		return false;
+	}
+
+
+	/* background clicked when bar shown */
+	tbar_backdrop.onclick=function() {// if the backdrop is clicked, hide menus
+		lbar.className = lbar.className.replace("show","");
+		rbar.className = rbar.className.replace("show","");
+		bodyRemoveClass("nav_modal");
+		return false;
+	}
+
+	/* handle expand/collapse sub-menus in lbar by attaching click events */
+	for(i=0; i<lbarLIs.length; i++){
+		lbarLIs[i].onclick=function(i) {
+			var elem=this.parentNode.getElementsByTagName("UL")[0];
+			var elemDisp=(elem.className.indexOf("show") === -1)
+
+			// hide all ul, then open one if clicked
+			for(i2=0; i2<lbarLIULs.length; i2++){
+				lbarLIULs[i2].className = lbarLIULs[i2].className.replace("show","");
+			}
+
+			if(elemDisp){
+				elem.classList.add("show");
+			}
+
+			return false;
+		}
+	}
+}
+function loadMobileRbar(){
+	var tbar_rbar_open=document.getElementById('tbar_rbar_open'),
+		rbar=document.getElementById('rbar');
+
+	/* rbar display/hide */
+	tbar_rbar_open.onclick=function() {
+		if (rbar.className.indexOf("show") > -1){//hide
+			rbar.className = rbar.className.replace("show","");
+			bodyRemoveClass("nav_modal");
+		} else{//show
+			rbar.classList.add("show");
+			bodyAddClass("nav_modal");
+		}
+
+		return false;
+	}
+}
+
+loadMobileLbar();
+
+/* attach listener to for rbar events AFTER page loads (because #rbar hasn't loaded at this point in page ) */
+if(window.addEventListener){
+	window.addEventListener('load', loadMobileRbar)
+} else{
+	window.attachEvent('onload', loadMobileRbar)
+}
+</script>
+
+
+
+<div id="content">
+		<div class="center" style="margin-top:16px;height:100px"><div id="nn_lb1"></div><div id="nn_mobile_lb1"></div></div>
+<main>
+
+
+<p>The following card sets are the sets that have been released in English. These are the bulk of the cards that you will find in various tournements and trading with your various friends</p>
+
+<p><font size="3"><b><u>English Sets</u></b></font></p>
+
+<table width="100% border="1" cellspacing="0" cellpadding="4"><tr>
+<td class="fooevo" width="15%">Logo</td>
+<td class="fooevo">Icon</td>
+<td class="fooevo">Set Name</td>
+<td class="fooevo">Number of Cards</td>
+<td class="fooevo">Release Date</td></tr><tr>
+<td class="cen"><a href="/card/deltareign"><img src="/card/logo/deltareign.png" loading="lazy" alt="Delta Reign Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/deltareign"><img src="/card/logo/deltareign-th.png" loading="lazy" alt="Delta Reign Set Icon" /></a></td>
+<td class="cen"><a href="/card/deltareign"><u>Delta Reign</u></a></td>
+<td class="cen">210</td>
+<td class="cen"><a href="/card/deltareign">November 6th 2026</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/30thcelebration"><img src="/card/logo/30thcelebration.png" loading="lazy" alt="30th Celebration Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/30thcelebration"><img src="/card/logo/30thcelebration-th.png" loading="lazy" alt="30th Celebration Set Icon" /></a></td>
+<td class="cen"><a href="/card/30thcelebration"><u>30th Celebration</u></a></td>
+<td class="cen">210</td>
+<td class="cen"><a href="/card/30thcelebration">September 16th 2026</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/pitchblack"><img src="/card/logo/pitchblack.png" loading="lazy" alt="Pitch Black Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/pitchblack"><img src="/card/logo/pitchblack-th.png" loading="lazy" alt="Pitch Black Set Icon" /></a></td>
+<td class="cen"><a href="/card/pitchblack"><u>Pitch Black</u></a></td>
+<td class="cen">130</td>
+<td class="cen"><a href="/card/pitchblack">July 17th 2026</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/chaosrising"><img src="/card/logo/chaosrising.png" loading="lazy" alt="Chaos Rising Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/chaosrising"><img src="/card/logo/chaosrising-th.png" loading="lazy" alt="Chaos Rising Set Icon" /></a></td>
+<td class="cen"><a href="/card/chaosrising"><u>Chaos Rising</u></a></td>
+<td class="cen">122</td>
+<td class="cen"><a href="/card/chaosrising">May 22nd 2026</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/perfectorder"><img src="/card/logo/perfectorder.png" loading="lazy" alt="Perfect Order Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/perfectorder"><img src="/card/logo/perfectorder-th.png" loading="lazy" alt="Perfect Order Set Icon" /></a></td>
+<td class="cen"><a href="/card/perfectorder"><u>Perfect Order</u></a></td>
+<td class="cen">124</td>
+<td class="cen"><a href="/card/perfectorder">March 27th 2026</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/ascendedheroes"><img src="/card/logo/ascendedheroes.png" loading="lazy" alt="Ascended Heroes Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/ascendedheroes"><img src="/card/logo/ascendedheroes-th.png" loading="lazy" alt="Ascended Heroes Set Icon" /></a></td>
+<td class="cen"><a href="/card/ascendedheroes"><u>Ascended Heroes</u></a></td>
+<td class="cen">295</td>
+<td class="cen"><a href="/card/ascendedheroes">January 30th 2026</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/phantasmalflames"><img src="/card/logo/phantasmalflames.png" loading="lazy" alt="Phantasmal Flames Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/phantasmalflames"><img src="/card/logo/phantasmalflames-th.png" loading="lazy" alt="Phantasmal Flames Set Icon" /></a></td>
+<td class="cen"><a href="/card/phantasmalflames"><u>Phantasmal Flames</u></a></td>
+<td class="cen">130</td>
+<td class="cen"><a href="/card/phantasmalflames">November 14th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/megaevolution"><img src="/card/logo/megaevolution.png" loading="lazy" alt="Mega Evolution Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/megaevolution"><img src="/card/logo/megaevolution-th.png" loading="lazy" alt="Mega Evolution Set Icon" /></a></td>
+<td class="cen"><a href="/card/megaevolution"><u>Mega Evolution</u></a></td>
+<td class="cen">173</td>
+<td class="cen"><a href="/card/megaevolution">September 26th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/whiteflare"><img src="/card/logo/whiteflare.png" loading="lazy" alt="White Flare Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/whiteflare"><img src="/card/logo/whiteflare-th.png" loading="lazy" alt="White Flare Set Icon" /></a></td>
+<td class="cen"><a href="/card/whiteflare"><u>White Flare</u></a></td>
+<td class="cen">173</td>
+<td class="cen"><a href="/card/whiteflare">July 18th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/blackbolt"><img src="/card/logo/blackbolt.png" loading="lazy" alt="Black Bolt Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/blackbolt"><img src="/card/logo/blackbolt-th.png" loading="lazy" alt="Black Bolt Set Icon" /></a></td>
+<td class="cen"><a href="/card/blackbolt"><u>Black Bolt</u></a></td>
+<td class="cen">172</td>
+<td class="cen"><a href="/card/blackbolt">July 18th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/destinedrivals"><img src="/card/logo/destinedrivals.png" loading="lazy" alt="Destined Rivals Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/destinedrivals"><img src="/card/logo/destinedrivals-th.png" loading="lazy" alt="Destined Rivals Set Icon" /></a></td>
+<td class="cen"><a href="/card/destinedrivals"><u>Destined Rivals</u></a></td>
+<td class="cen">244</td>
+<td class="cen"><a href="/card/destinedrivals">May 30th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/journeytogether"><img src="/card/logo/journeytogether.png" loading="lazy" alt="Journey Together Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/journeytogether"><img src="/card/logo/journeytogether-th.png" loading="lazy" alt="Journey Together Set Icon" /></a></td>
+<td class="cen"><a href="/card/journeytogether"><u>Journey Together</u></a></td>
+<td class="cen">191</td>
+<td class="cen"><a href="/card/journeytogether">March 28th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/prismaticevolutions"><img src="/card/logo/prismaticevolutions.png" loading="lazy" alt="Prismatic Evolutions Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/prismaticevolutions"><img src="/card/logo/prismaticevolutions-th.png" loading="lazy" alt="Prismatic Evolutions Set Icon" /></a></td>
+<td class="cen"><a href="/card/prismaticevolutions"><u>Prismatic Evolutions</u></a></td>
+<td class="cen">191</td>
+<td class="cen"><a href="/card/prismaticevolutions">January 17th 2025</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/surgingsparks"><img src="/card/logo/surgingsparks.png" loading="lazy" alt="Surging Sparks Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/surgingsparks"><img src="/card/logo/surgingsparks-th.png" loading="lazy" alt="Surging Sparks Set Icon" /></a></td>
+<td class="cen"><a href="/card/surgingsparks"><u>Surging Sparks</u></a></td>
+<td class="cen">250</td>
+<td class="cen"><a href="/card/surgingsparks">November 8th 2024</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/stellarcrown"><img src="/card/logo/stellarcrown.png" loading="lazy" alt="Stellar Crown Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/stellarcrown"><img src="/card/logo/stellarcrown-th.png" loading="lazy" alt="Stellar Crown Set Icon" /></a></td>
+<td class="cen"><a href="/card/stellarcrown"><u>Stellar Crown</u></a></td>
+<td class="cen">175</td>
+<td class="cen"><a href="/card/stellarcrown">September 13th 2024</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/shroudedfable"><img src="/card/logo/shroudedfable.png" loading="lazy" alt="Shrouded Fable Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/shroudedfable"><img src="/card/logo/shroudedfable-th.png" loading="lazy" alt="Shrouded Fable Set Icon" /></a></td>
+<td class="cen"><a href="/card/shroudedfable"><u>Shrouded Fable</u></a></td>
+<td class="cen">99</td>
+<td class="cen"><a href="/card/shroudedfable">August 2nd 2024</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/twilightmasquerade"><img src="/card/logo/twilightmasquerade.png" loading="lazy" alt="Twilight Masquerade Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/twilightmasquerade"><img src="/card/logo/twilightmasquerade-th.png" loading="lazy" alt="Twilight Masquerade Set Icon" /></a></td>
+<td class="cen"><a href="/card/twilightmasquerade"><u>Twilight Masquerade</u></a></td>
+<td class="cen">226</td>
+<td class="cen"><a href="/card/twilightmasquerade">May 24th 2024</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/temporalforces"><img src="/card/logo/temporalforces.png" loading="lazy" alt="Temporal Forces Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/temporalforces"><img src="/card/logo/temporalforces-th.png" loading="lazy" alt="Temporal Forces Set Icon" /></a></td>
+<td class="cen"><a href="/card/temporalforces"><u>Temporal Forces</u></a></td>
+<td class="cen">218</td>
+<td class="cen"><a href="/card/temporalforces">March 22nd 2024</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/paldeanfates"><img src="/card/logo/paldeanfates.png" loading="lazy" alt="Paldean Fates Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/paldeanfates"><img src="/card/logo/paldeanfates-th.png" loading="lazy" alt="Paldean Fates Set Icon" /></a></td>
+<td class="cen"><a href="/card/paldeanfates"><u>Paldean Fates</u></a></td>
+<td class="cen">245</td>
+<td class="cen"><a href="/card/paldeanfates">January 26th 2024</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/paradoxrift"><img src="/card/logo/paradoxrift.png" loading="lazy" alt="Paradox Rift Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/paradoxrift"><img src="/card/logo/paradoxrift-th.png" loading="lazy" alt="Paradox Rift Set Icon" /></a></td>
+<td class="cen"><a href="/card/paradoxrift"><u>Paradox Rift</u></a></td>
+<td class="cen">266</td>
+<td class="cen"><a href="/card/paradoxrift">November 3rd 2023</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/151"><img src="/card/logo/151.png" loading="lazy" alt="151 Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/151"><img src="/card/logo/151-th.png" loading="lazy" alt="151 Set Icon" /></a></td>
+<td class="cen"><a href="/card/151"><u>151</u></a></td>
+<td class="cen">207</td>
+<td class="cen"><a href="/card/151">September 22nd 2023</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/obsidianflames"><img src="/card/logo/obsidianflames.png" loading="lazy" alt="Obsidian Flames Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/obsidianflames"><img src="/card/logo/obsidianflames-th.png" loading="lazy" alt="Obsidian Flames Set Icon" /></a></td>
+<td class="cen"><a href="/card/obsidianflames"><u>Obsidian Flames</u></a></td>
+<td class="cen">230</td>
+<td class="cen"><a href="/card/obsidianflames">August 11th 2023</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/paldeaevolved"><img src="/card/logo/paldeaevolved.png" loading="lazy" alt="Paldea Evolved Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/paldeaevolved"><img src="/card/logo/paldeaevolved-th.png" loading="lazy" alt="Paldea Evolved Set Icon" /></a></td>
+<td class="cen"><a href="/card/paldeaevolved"><u>Paldea Evolved</u></a></td>
+<td class="cen">279</td>
+<td class="cen"><a href="/card/paldeaevolved">June 4th 2023</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/scarletviolet"><img src="/card/logo/scarletviolet.png" loading="lazy" alt="Scarlet Violet Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/scarletviolet"><img src="/card/logo/scarletviolet-th.png" loading="lazy" alt="Scarlet Violet Set Icon" /></a></td>
+<td class="cen"><a href="/card/scarletviolet"><u>Scarlet Violet</u></a></td>
+<td class="cen">258</td>
+<td class="cen"><a href="/card/scarletviolet">March 31st 2023</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/crownzenith"><img src="/card/logo/crownzenith.png" loading="lazy" alt="Crown Zenith Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/crownzenith"><img src="/card/logo/crownzenith-th.png" loading="lazy" alt="Crown Zenith Set Icon" /></a></td>
+<td class="cen"><a href="/card/crownzenith"><u>Crown Zenith</u></a></td>
+<td class="cen">229</td>
+<td class="cen"><a href="/card/crownzenith">January 20th 2023</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/silvertempest"><img src="/card/logo/silvertempest.png" loading="lazy" alt="Silver Tempest Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/silvertempest"><img src="/card/logo/silvertempest-th.png" loading="lazy" alt="Silver Tempest Set Icon" /></a></td>
+<td class="cen"><a href="/card/silvertempest"><u>Silver Tempest</u></a></td>
+<td class="cen">225</td>
+<td class="cen"><a href="/card/silvertempest">November 11th 2022</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/lostorigin"><img src="/card/logo/lostorigin.png" loading="lazy" alt="Lost Origin Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/lostorigin"><img src="/card/logo/lostorigin-th.png" loading="lazy" alt="Lost Origin Set Icon" /></a></td>
+<td class="cen"><a href="/card/lostorigin"><u>Lost Origin</u></a></td>
+<td class="cen">247</td>
+<td class="cen"><a href="/card/lostorigin">September 9th 2022</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/pokemongo"><img src="/card/logo/pokemongo.png" loading="lazy" alt="Pokemon GO Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/pokemongo"><img src="/card/logo/pokemongo-th.png" loading="lazy" alt="Pokemon GO Set Icon" /></a></td>
+<td class="cen"><a href="/card/pokemongo"><u>Pokemon GO</u></a></td>
+<td class="cen">78</td>
+<td class="cen"><a href="/card/pokemongo">July 1st 2022</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/astralradiance"><img src="/card/logo/astralradiance.png" loading="lazy" alt="Astral Radiance Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/astralradiance"><img src="/card/logo/astralradiance-th.png" loading="lazy" alt="Astral Radiance Set Icon" /></a></td>
+<td class="cen"><a href="/card/astralradiance"><u>Astral Radiance</u></a></td>
+<td class="cen">219</td>
+<td class="cen"><a href="/card/astralradiance">May 28th 2022</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/brilliantstars"><img src="/card/logo/brilliantstars.png" loading="lazy" alt="Brilliant Stars Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/brilliantstars"><img src="/card/logo/brilliantstars-th.png" loading="lazy" alt="Brilliant Stars Set Icon" /></a></td>
+<td class="cen"><a href="/card/brilliantstars"><u>Brilliant Stars</u></a></td>
+<td class="cen">215</td>
+<td class="cen"><a href="/card/brilliantstars">February 25th 2022</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/fusionstrike"><img src="/card/logo/fusionstrike.png" loading="lazy" alt="Fusion Strike Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/fusionstrike"><img src="/card/logo/fusionstrike-th.png" loading="lazy" alt="Fusion Strike Set Icon" /></a></td>
+<td class="cen"><a href="/card/fusionstrike"><u>Fusion Strike</u></a></td>
+<td class="cen">284</td>
+<td class="cen"><a href="/card/fusionstrike">November 12th 2021</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/celebrations"><img src="/card/logo/celebrations.png" loading="lazy" alt="Celebrations Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/celebrations"><img src="/card/logo/celebrations-th.png" loading="lazy" alt="Celebrations Set Icon" /></a></td>
+<td class="cen"><a href="/card/celebrations"><u>Celebrations</u></a></td>
+<td class="cen">50</td>
+<td class="cen"><a href="/card/celebrations">October 8th 2021</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/evolvingskies"><img src="/card/logo/evolvingskies.png" loading="lazy" alt="Evolving Skies Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/evolvingskies"><img src="/card/logo/evolvingskies-th.png" loading="lazy" alt="Evolving Skies Set Icon" /></a></td>
+<td class="cen"><a href="/card/evolvingskies"><u>Evolving Skies</u></a></td>
+<td class="cen">237</td>
+<td class="cen"><a href="/card/evolvingskies">August 27th 2021</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/chillingreign"><img src="/card/logo/chillingreign.png" loading="lazy" alt="Chilling Reign Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/chillingreign"><img src="/card/logo/chillingreign-th.png" loading="lazy" alt="Chilling Reign Set Icon" /></a></td>
+<td class="cen"><a href="/card/chillingreign"><u>Chilling Reign</u></a></td>
+<td class="cen">238</td>
+<td class="cen"><a href="/card/chillingreign">June 18th 2021</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/battlestyles"><img src="/card/logo/battlestyles.png" loading="lazy" alt="Battle Styles Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/battlestyles"><img src="/card/logo/battlestyles-th.png" loading="lazy" alt="Battle Styles Set Icon" /></a></td>
+<td class="cen"><a href="/card/battlestyles"><u>Battle Styles</u></a></td>
+<td class="cen">183</td>
+<td class="cen"><a href="/card/battlestyles">March 19th 2021</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/shiningfates"><img src="/card/logo/shiningfates.png" loading="lazy" alt="Shining Fates Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/shiningfates"><img src="/card/logo/shiningfates-th.png" loading="lazy" alt="Shining Fates Set Icon" /></a></td>
+<td class="cen"><a href="/card/shiningfates"><u>Shining Fates</u></a></td>
+<td class="cen">195</td>
+<td class="cen"><a href="/card/shiningfates">February 19th 2021</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/vividvoltage"><img src="/card/logo/vividvoltage.png" loading="lazy" alt="Vivid Voltage Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/vividvoltage"><img src="/card/logo/vividvoltage-th.png" loading="lazy" alt="Vivid Voltage Set Icon" /></a></td>
+<td class="cen"><a href="/card/vividvoltage"><u>Vivid Voltage</u></a></td>
+<td class="cen">205</td>
+<td class="cen"><a href="/card/vividvoltage">November 13th 2020</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/champion'spath"><img src="/card/logo/champion'spath.png" loading="lazy" alt="Champion's Path Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/champion'spath"><img src="/card/logo/champion'spath-th.png" loading="lazy" alt="Champion's Path Set Icon" /></a></td>
+<td class="cen"><a href="/card/champion'spath"><u>Champion's Path</u></a></td>
+<td class="cen">83</td>
+<td class="cen"><a href="/card/champion'spath">September 25th 2020</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/darknessablaze"><img src="/card/logo/darknessablaze.png" loading="lazy" alt="Darkness Ablaze Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/darknessablaze"><img src="/card/logo/darknessablaze-th.png" loading="lazy" alt="Darkness Ablaze Set Icon" /></a></td>
+<td class="cen"><a href="/card/darknessablaze"><u>Darkness Ablaze</u></a></td>
+<td class="cen">201</td>
+<td class="cen"><a href="/card/darknessablaze">August 14th 2020</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/rebelclash"><img src="/card/logo/rebelclash.png" loading="lazy" alt="Rebel Clash Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/rebelclash"><img src="/card/logo/rebelclash-th.png" loading="lazy" alt="Rebel Clash Set Icon" /></a></td>
+<td class="cen"><a href="/card/rebelclash"><u>Rebel Clash</u></a></td>
+<td class="cen">209</td>
+<td class="cen"><a href="/card/rebelclash">May 1st 2020</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/swordshield"><img src="/card/logo/swordshield.png" loading="lazy" alt="Sword Shield Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/swordshield"><img src="/card/logo/swordshield-th.png" loading="lazy" alt="Sword Shield Set Icon" /></a></td>
+<td class="cen"><a href="/card/swordshield"><u>Sword Shield</u></a></td>
+<td class="cen">216</td>
+<td class="cen"><a href="/card/swordshield">February 7th 2020</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/cosmiceclipse"><img src="/card/logo/cosmiceclipse.png" loading="lazy" alt="Cosmic Eclipse Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/cosmiceclipse"><img src="/card/logo/cosmiceclipse-th.png" loading="lazy" alt="Cosmic Eclipse Set Icon" /></a></td>
+<td class="cen"><a href="/card/cosmiceclipse"><u>Cosmic Eclipse</u></a></td>
+<td class="cen">271</td>
+<td class="cen"><a href="/card/cosmiceclipse">November 1st 2019</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/hiddenfates"><img src="/card/logo/hiddenfates.png" loading="lazy" alt="Hidden Fates Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/hiddenfates"><img src="/card/logo/hiddenfates-th.png" loading="lazy" alt="Hidden Fates Set Icon" /></a></td>
+<td class="cen"><a href="/card/hiddenfates"><u>Hidden Fates</u></a></td>
+<td class="cen">163</td>
+<td class="cen"><a href="/card/hiddenfates">August 23rd 2018</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/unifiedminds"><img src="/card/logo/unifiedminds.png" loading="lazy" alt="Unified Minds Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/unifiedminds"><img src="/card/logo/unifiedminds-th.png" loading="lazy" alt="Unified Minds Set Icon" /></a></td>
+<td class="cen"><a href="/card/unifiedminds"><u>Unified Minds</u></a></td>
+<td class="cen">258</td>
+<td class="cen"><a href="/card/unifiedminds">August 2nd 2019</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/unbrokenbonds"><img src="/card/logo/unbrokenbonds.png" loading="lazy" alt="Unbroken Bonds Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/unbrokenbonds"><img src="/card/logo/unbrokenbonds-th.png" loading="lazy" alt="Unbroken Bonds Set Icon" /></a></td>
+<td class="cen"><a href="/card/unbrokenbonds"><u>Unbroken Bonds</u></a></td>
+<td class="cen">234</td>
+<td class="cen"><a href="/card/unbrokenbonds">May 5th 2019</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/pokemondetectivepikachu"><img src="/card/logo/pokemondetectivepikachu.png" loading="lazy" alt="Pokemon Detective Pikachu Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/pokemondetectivepikachu"><img src="/card/logo/pokemondetectivepikachu-th.png" loading="lazy" alt="Pokemon Detective Pikachu Set Icon" /></a></td>
+<td class="cen"><a href="/card/pokemondetectivepikachu"><u>Pokemon Detective Pikachu</u></a></td>
+<td class="cen">26</td>
+<td class="cen"><a href="/card/pokemondetectivepikachu">March 29th 2019</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/teamup"><img src="/card/logo/teamup.png" loading="lazy" alt="Team Up Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/teamup"><img src="/card/logo/teamup-th.png" loading="lazy" alt="Team Up Set Icon" /></a></td>
+<td class="cen"><a href="/card/teamup"><u>Team Up</u></a></td>
+<td class="cen">196</td>
+<td class="cen"><a href="/card/teamup">February 1st 2019</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/lostthunder"><img src="/card/logo/lostthunder.png" loading="lazy" alt="Lost Thunder Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/lostthunder"><img src="/card/logo/lostthunder-th.png" loading="lazy" alt="Lost Thunder Set Icon" /></a></td>
+<td class="cen"><a href="/card/lostthunder"><u>Lost Thunder</u></a></td>
+<td class="cen">236</td>
+<td class="cen"><a href="/card/lostthunder">November 2nd 2018</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/dragonmajesty"><img src="/card/logo/dragonmajesty.png" loading="lazy" alt="Dragon Majesty Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/dragonmajesty"><img src="/card/logo/dragonmajesty-th.png" loading="lazy" alt="Dragon Majesty Set Icon" /></a></td>
+<td class="cen"><a href="/card/dragonmajesty"><u>Dragon Majesty</u></a></td>
+<td class="cen">78</td>
+<td class="cen"><a href="/card/dragonmajesty">September 7th 2018</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/celestialstorm"><img src="/card/logo/celestialstorm.png" loading="lazy" alt="Celestial Storm Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/celestialstorm"><img src="/card/logo/celestialstorm-th.png" loading="lazy" alt="Celestial Storm Set Icon" /></a></td>
+<td class="cen"><a href="/card/celestialstorm"><u>Celestial Storm</u></a></td>
+<td class="cen">183</td>
+<td class="cen"><a href="/card/celestialstorm">August 3rd 2018</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/forbiddenlight"><img src="/card/logo/forbiddenlight.png" loading="lazy" alt="Forbidden Light Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/forbiddenlight"><img src="/card/logo/forbiddenlight-th.png" loading="lazy" alt="Forbidden Light Set Icon" /></a></td>
+<td class="cen"><a href="/card/forbiddenlight"><u>Forbidden Light</u></a></td>
+<td class="cen">146</td>
+<td class="cen"><a href="/card/forbiddenlight">May 4th 2018</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/ultraprism"><img src="/card/logo/ultraprism.png" loading="lazy" alt="Ultra Prism Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/ultraprism"><img src="/card/logo/ultraprism-th.png" loading="lazy" alt="Ultra Prism Set Icon" /></a></td>
+<td class="cen"><a href="/card/ultraprism"><u>Ultra Prism</u></a></td>
+<td class="cen">173</td>
+<td class="cen"><a href="/card/ultraprism">February 2nd 2018</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/crimsoninvasion"><img src="/card/logo/crimsoninvasion.png" loading="lazy" alt="Crimson Invasion Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/crimsoninvasion"><img src="/card/logo/crimsoninvasion-th.png" loading="lazy" alt="Crimson Invasion Set Icon" /></a></td>
+<td class="cen"><a href="/card/crimsoninvasion"><u>Crimson Invasion</u></a></td>
+<td class="cen">124</td>
+<td class="cen"><a href="/card/crimsoninvasion">November 3rd 2017</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/shininglegends"><img src="/card/logo/shininglegends.png" loading="lazy" alt="Shining Legends Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/shininglegends"><img src="/card/logo/shininglegends-th.png" loading="lazy" alt="Shining Legends Set Icon" /></a></td>
+<td class="cen"><a href="/card/shininglegends"><u>Shining Legends</u></a></td>
+<td class="cen">78</td>
+<td class="cen"><a href="/card/shininglegends">October 6th 2017</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/burningshadows"><img src="/card/logo/burningshadows.png" loading="lazy" alt="Burning Shadows Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/burningshadows"><img src="/card/logo/burningshadows-th.png" loading="lazy" alt="Burning Shadows Set Icon" /></a></td>
+<td class="cen"><a href="/card/burningshadows"><u>Burning Shadows</u></a></td>
+<td class="cen">169</td>
+<td class="cen"><a href="/card/burningshadows">August 4th 2017</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/guardiansrising"><img src="/card/logo/guardiansrising.png" loading="lazy" alt="Guardians Rising Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/guardiansrising"><img src="/card/logo/guardiansrising-th.png" loading="lazy" alt="Guardians Rising Set Icon" /></a></td>
+<td class="cen"><a href="/card/guardiansrising"><u>Guardians Rising</u></a></td>
+<td class="cen">169</td>
+<td class="cen"><a href="/card/guardiansrising">May 5th 2017</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/sunmoon"><img src="/card/logo/sunmoon.png" loading="lazy" alt="Sun Moon Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/sunmoon"><img src="/card/logo/sunmoon-th.png" loading="lazy" alt="Sun Moon Set Icon" /></a></td>
+<td class="cen"><a href="/card/sunmoon"><u>Sun Moon</u></a></td>
+<td class="cen">163</td>
+<td class="cen"><a href="/card/sunmoon">February 3rd 2017</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/evolutions"><img src="/card/logo/evolutions.png" loading="lazy" alt="Evolutions Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/evolutions"><img src="/card/logo/evolutions-th.png" loading="lazy" alt="Evolutions Set Icon" /></a></td>
+<td class="cen"><a href="/card/evolutions"><u>Evolutions</u></a></td>
+<td class="cen">113</td>
+<td class="cen"><a href="/card/evolutions">October 31st 2016</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/steamsiege"><img src="/card/logo/steamsiege.png" loading="lazy" alt="Steam Siege Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/steamsiege"><img src="/card/logo/steamsiege-th.png" loading="lazy" alt="Steam Siege Set Icon" /></a></td>
+<td class="cen"><a href="/card/steamsiege"><u>Steam Siege</u></a></td>
+<td class="cen">116</td>
+<td class="cen"><a href="/card/steamsiege">August 3rd 2016</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/fatescollide"><img src="/card/logo/fatescollide.png" loading="lazy" alt="Fates Collide Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/fatescollide"><img src="/card/logo/fatescollide-th.png" loading="lazy" alt="Fates Collide Set Icon" /></a></td>
+<td class="cen"><a href="/card/fatescollide"><u>Fates Collide</u></a></td>
+<td class="cen">125</td>
+<td class="cen"><a href="/card/fatescollide">May 4th 2016</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/generations"><img src="/card/logo/generations.png" loading="lazy" alt="Generations Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/generations"><img src="/card/logo/generations-th.png" loading="lazy" alt="Generations Set Icon" /></a></td>
+<td class="cen"><a href="/card/generations"><u>Generations</u></a></td>
+<td class="cen">115</td>
+<td class="cen"><a href="/card/generations">February 22nd 2016</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/breakpoint"><img src="/card/logo/breakpoint.png" loading="lazy" alt="BREAKPoint Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/breakpoint"><img src="/card/logo/breakpoint-th.png" loading="lazy" alt="BREAKPoint Set Icon" /></a></td>
+<td class="cen"><a href="/card/breakpoint"><u>BREAKPoint</u></a></td>
+<td class="cen">123</td>
+<td class="cen"><a href="/card/breakpoint">February 3rd 2016</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/breakthrough"><img src="/card/logo/breakthrough.png" loading="lazy" alt="BREAKThrough Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/breakthrough"><img src="/card/logo/breakthrough-th.png" loading="lazy" alt="BREAKThrough Set Icon" /></a></td>
+<td class="cen"><a href="/card/breakthrough"><u>BREAKThrough</u></a></td>
+<td class="cen">164</td>
+<td class="cen"><a href="/card/breakthrough">November 4th 2015</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/ancientorigins"><img src="/card/logo/ancientorigins.png" loading="lazy" alt="Ancient Origins Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/ancientorigins"><img src="/card/logo/ancientorigins-th.png" loading="lazy" alt="Ancient Origins Set Icon" /></a></td>
+<td class="cen"><a href="/card/ancientorigins"><u>Ancient Origins</u></a></td>
+<td class="cen">100</td>
+<td class="cen"><a href="/card/ancientorigins">March 25th 2014</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/roaringskies"><img src="/card/logo/roaringskies.png" loading="lazy" alt="Roaring Skies Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/roaringskies"><img src="/card/logo/roaringskies-th.png" loading="lazy" alt="Roaring Skies Set Icon" /></a></td>
+<td class="cen"><a href="/card/roaringskies"><u>Roaring Skies</u></a></td>
+<td class="cen">110</td>
+<td class="cen"><a href="/card/roaringskies">August 12th 2015</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/doublecrisis"><img src="/card/logo/doublecrisis.png" loading="lazy" alt="Double Crisis Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/doublecrisis"><img src="/card/logo/doublecrisis-th.png" loading="lazy" alt="Double Crisis Set Icon" /></a></td>
+<td class="cen"><a href="/card/doublecrisis"><u>Double Crisis</u></a></td>
+<td class="cen">34</td>
+<td class="cen"><a href="/card/doublecrisis">May 6th 2015</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/primalclash"><img src="/card/logo/primalclash.png" loading="lazy" alt="Primal Clash Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/primalclash"><img src="/card/logo/primalclash-th.png" loading="lazy" alt="Primal Clash Set Icon" /></a></td>
+<td class="cen"><a href="/card/primalclash"><u>Primal Clash</u></a></td>
+<td class="cen">164</td>
+<td class="cen"><a href="/card/primalclash">February 5th 2015</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/phantomforces"><img src="/card/logo/phantomforces.png" loading="lazy" alt="Phantom Forces Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/phantomforces"><img src="/card/logo/phantomforces-th.png" loading="lazy" alt="Phantom Forces Set Icon" /></a></td>
+<td class="cen"><a href="/card/phantomforces"><u>Phantom Forces</u></a></td>
+<td class="cen">122</td>
+<td class="cen"><a href="/card/phantomforces">November 5th 2014</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/furiousfists"><img src="/card/logo/furiousfists.png" loading="lazy" alt="Furious Fists Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/furiousfists"><img src="/card/logo/furiousfists-th.png" loading="lazy" alt="Furious Fists Set Icon" /></a></td>
+<td class="cen"><a href="/card/furiousfists"><u>Furious Fists</u></a></td>
+<td class="cen">113</td>
+<td class="cen"><a href="/card/furiousfists">August 13th 2014</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/flashfire"><img src="/card/logo/flashfire.png" loading="lazy" alt="Flashfire Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/flashfire"><img src="/card/logo/flashfire-th.png" loading="lazy" alt="Flashfire Set Icon" /></a></td>
+<td class="cen"><a href="/card/flashfire"><u>Flashfire</u></a></td>
+<td class="cen">109</td>
+<td class="cen"><a href="/card/flashfire">May 7th 2014</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/xy"><img src="/card/logo/xy.png" loading="lazy" alt="X Y Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/xy"><img src="/card/logo/xy-th.png" loading="lazy" alt="X Y Set Icon" /></a></td>
+<td class="cen"><a href="/card/xy"><u>X Y</u></a></td>
+<td class="cen">146</td>
+<td class="cen"><a href="/card/xy">February 5th 2014</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/legendarytreasures"><img src="/card/logo/legendarytreasures.png" loading="lazy" alt="Legendary Treasures Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/legendarytreasures"><img src="/card/logo/legendarytreasures-th.png" loading="lazy" alt="Legendary Treasures Set Icon" /></a></td>
+<td class="cen"><a href="/card/legendarytreasures"><u>Legendary Treasures</u></a></td>
+<td class="cen">140</td>
+<td class="cen"><a href="/card/legendarytreasures">November 8th 2013</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/plasmablast"><img src="/card/logo/plasmablast.png" loading="lazy" alt="Plasma Blast Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/plasmablast"><img src="/card/logo/plasmablast-th.png" loading="lazy" alt="Plasma Blast Set Icon" /></a></td>
+<td class="cen"><a href="/card/plasmablast"><u>Plasma Blast</u></a></td>
+<td class="cen">105</td>
+<td class="cen"><a href="/card/plasmablast">August 15th 2013</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/plasmafreeze"><img src="/card/logo/plasmafreeze.png" loading="lazy" alt="Plasma Freeze Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/plasmafreeze"><img src="/card/logo/plasmafreeze-th.png" loading="lazy" alt="Plasma Freeze Set Icon" /></a></td>
+<td class="cen"><a href="/card/plasmafreeze"><u>Plasma Freeze</u></a></td>
+<td class="cen">122</td>
+<td class="cen"><a href="/card/plasmafreeze">May 8th 2013</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/plasmastorm"><img src="/card/logo/plasmastorm.png" loading="lazy" alt="Plasma Storm Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/plasmastorm"><img src="/card/logo/plasmastorm-th.png" loading="lazy" alt="Plasma Storm Set Icon" /></a></td>
+<td class="cen"><a href="/card/plasmastorm"><u>Plasma Storm</u></a></td>
+<td class="cen">138</td>
+<td class="cen"><a href="/card/plasmastorm">February 6th 2013</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/boundariescrossed"><img src="/card/logo/boundariescrossed.png" loading="lazy" alt="Boundaries Crossed Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/boundariescrossed"><img src="/card/logo/boundariescrossed-th.png" loading="lazy" alt="Boundaries Crossed Set Icon" /></a></td>
+<td class="cen"><a href="/card/boundariescrossed"><u>Boundaries Crossed</u></a></td>
+<td class="cen">153</td>
+<td class="cen"><a href="/card/boundariescrossed">November 8th 2012</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/dragonvault"><img src="/card/logo/dragonvault.png" loading="lazy" alt="Dragon Vault Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/dragonvault"><img src="/card/logo/dragonvault-th.png" loading="lazy" alt="Dragon Vault Set Icon" /></a></td>
+<td class="cen"><a href="/card/dragonvault"><u>Dragon Vault</u></a></td>
+<td class="cen">21</td>
+<td class="cen"><a href="/card/dragonvault">October 5th 2012</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/dragonsexalted"><img src="/card/logo/dragonsexalted.png" loading="lazy" alt="Dragons Exalted Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/dragonsexalted"><img src="/card/logo/dragonsexalted-th.png" loading="lazy" alt="Dragons Exalted Set Icon" /></a></td>
+<td class="cen"><a href="/card/dragonsexalted"><u>Dragons Exalted</u></a></td>
+<td class="cen">128</td>
+<td class="cen"><a href="/card/dragonsexalted">August 15th 2012</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/darkexplorers"><img src="/card/logo/darkexplorers.png" loading="lazy" alt="Dark Explorers Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/darkexplorers"><img src="/card/logo/darkexplorers-th.png" loading="lazy" alt="Dark Explorers Set Icon" /></a></td>
+<td class="cen"><a href="/card/darkexplorers"><u>Dark Explorers</u></a></td>
+<td class="cen">111</td>
+<td class="cen"><a href="/card/darkexplorers">May 9th 2012</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/nextdestinies"><img src="/card/logo/nextdestinies.png" loading="lazy" alt="Next Destinies Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/nextdestinies"><img src="/card/logo/nextdestinies-th.png" loading="lazy" alt="Next Destinies Set Icon" /></a></td>
+<td class="cen"><a href="/card/nextdestinies"><u>Next Destinies</u></a></td>
+<td class="cen">103</td>
+<td class="cen"><a href="/card/nextdestinies">February 8th 2012</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/noblevictories"><img src="/card/logo/noblevictories.png" loading="lazy" alt="Noble Victories Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/noblevictories"><img src="/card/logo/noblevictories-th.png" loading="lazy" alt="Noble Victories Set Icon" /></a></td>
+<td class="cen"><a href="/card/noblevictories"><u>Noble Victories</u></a></td>
+<td class="cen">102</td>
+<td class="cen"><a href="/card/noblevictories">November 16th 2011</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/emergingpowers"><img src="/card/logo/emergingpowers.png" loading="lazy" alt="Emerging Powers Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/emergingpowers"><img src="/card/logo/emergingpowers-th.png" loading="lazy" alt="Emerging Powers Set Icon" /></a></td>
+<td class="cen"><a href="/card/emergingpowers"><u>Emerging Powers</u></a></td>
+<td class="cen">98</td>
+<td class="cen"><a href="/card/emergingpowers">August 31st 2011</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/blackwhite"><img src="/card/logo/blackwhite.png" loading="lazy" alt="Black White Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/blackwhite"><img src="/card/logo/blackwhite-th.png" loading="lazy" alt="Black White Set Icon" /></a></td>
+<td class="cen"><a href="/card/blackwhite"><u>Black White</u></a></td>
+<td class="cen">115</td>
+<td class="cen"><a href="/card/blackwhite">April 25th 2011</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/calloflegends"><img src="/card/logo/calloflegends.png" loading="lazy" alt="Call of Legends Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/calloflegends"><img src="/card/logo/calloflegends-th.png" loading="lazy" alt="Call of Legends Set Icon" /></a></td>
+<td class="cen"><a href="/card/calloflegends"><u>Call of Legends</u></a></td>
+<td class="cen">117</td>
+<td class="cen"><a href="/card/calloflegends">February 9th 2011</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/triumphant"><img src="/card/logo/triumphant.png" loading="lazy" alt="Triumphant Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/triumphant"><img src="/card/logo/triumphant-th.png" loading="lazy" alt="Triumphant Set Icon" /></a></td>
+<td class="cen"><a href="/card/triumphant"><u>Triumphant</u></a></td>
+<td class="cen">103</td>
+<td class="cen"><a href="/card/triumphant">November 3rd 2010</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/undaunted"><img src="/card/logo/undaunted.png" loading="lazy" alt="Undaunted Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/undaunted"><img src="/card/logo/undaunted-th.png" loading="lazy" alt="Undaunted Set Icon" /></a></td>
+<td class="cen"><a href="/card/undaunted"><u>Undaunted</u></a></td>
+<td class="cen">91</td>
+<td class="cen"><a href="/card/undaunted">August 18th 2010</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/unleashed"><img src="/card/logo/unleashed.png" loading="lazy" alt="Unleashed Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/unleashed"><img src="/card/logo/unleashed-th.png" loading="lazy" alt="Unleashed Set Icon" /></a></td>
+<td class="cen"><a href="/card/unleashed"><u>Unleashed</u></a></td>
+<td class="cen">96</td>
+<td class="cen"><a href="/card/unleashed">May 12th 2010</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/heartgoldsoulsilver"><img src="/card/logo/heartgoldsoulsilver.png" loading="lazy" alt="HeartGold SoulSilver Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/heartgoldsoulsilver"><img src="/card/logo/heartgoldsoulsilver-th.png" loading="lazy" alt="HeartGold SoulSilver Set Icon" /></a></td>
+<td class="cen"><a href="/card/heartgoldsoulsilver"><u>HeartGold SoulSilver</u></a></td>
+<td class="cen">124</td>
+<td class="cen"><a href="/card/heartgoldsoulsilver">February 11th 2010</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/arceus"><img src="/card/logo/arceus.png" loading="lazy" alt="Arceus Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/arceus"><img src="/card/logo/arceus-th.png" loading="lazy" alt="Arceus Set Icon" /></a></td>
+<td class="cen"><a href="/card/arceus"><u>Arceus</u></a></td>
+<td class="cen">110</td>
+<td class="cen"><a href="/card/arceus">November 4th 2009</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/supremevictors"><img src="/card/logo/supremevictors.png" loading="lazy" alt="Supreme Victors Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/supremevictors"><img src="/card/logo/supremevictors-th.png" loading="lazy" alt="Supreme Victors Set Icon" /></a></td>
+<td class="cen"><a href="/card/supremevictors"><u>Supreme Victors</u></a></td>
+<td class="cen">153</td>
+<td class="cen"><a href="/card/supremevictors">August 18th 2009</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/risingrivals"><img src="/card/logo/risingrivals.png" loading="lazy" alt="Rising Rivals Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/risingrivals"><img src="/card/logo/risingrivals-th.png" loading="lazy" alt="Rising Rivals Set Icon" /></a></td>
+<td class="cen"><a href="/card/risingrivals"><u>Rising Rivals</u></a></td>
+<td class="cen">120</td>
+<td class="cen"><a href="/card/risingrivals">May 20th 2009</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/platinum"><img src="/card/logo/platinum.png" loading="lazy" alt="Platinum Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/platinum"><img src="/card/logo/platinum-th.png" loading="lazy" alt="Platinum Set Icon" /></a></td>
+<td class="cen"><a href="/card/platinum"><u>Platinum</u></a></td>
+<td class="cen">133</td>
+<td class="cen"><a href="/card/platinum">February 11th 2009</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/stormfront"><img src="/card/logo/stormfront.png" loading="lazy" alt="Stormfront Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/stormfront"><img src="/card/logo/stormfront-th.png" loading="lazy" alt="Stormfront Set Icon" /></a></td>
+<td class="cen"><a href="/card/stormfront"><u>Stormfront</u></a></td>
+<td class="cen">106</td>
+<td class="cen"><a href="/card/stormfront">November 5th 2008</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/legendsawakened"><img src="/card/logo/legendsawakened.png" loading="lazy" alt="Legends Awakened Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/legendsawakened"><img src="/card/logo/legendsawakened-th.png" loading="lazy" alt="Legends Awakened Set Icon" /></a></td>
+<td class="cen"><a href="/card/legendsawakened"><u>Legends Awakened</u></a></td>
+<td class="cen">146</td>
+<td class="cen"><a href="/card/legendsawakened">August 20th 2008</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/majesticdawn"><img src="/card/logo/majesticdawn.png" loading="lazy" alt="Majestic Dawn Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/majesticdawn"><img src="/card/logo/majesticdawn-th.png" loading="lazy" alt="Majestic Dawn Set Icon" /></a></td>
+<td class="cen"><a href="/card/majesticdawn"><u>Majestic Dawn</u></a></td>
+<td class="cen">100</td>
+<td class="cen"><a href="/card/majesticdawn">May 21st 2008</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/greatencounters"><img src="/card/logo/greatencounters.png" loading="lazy" alt="Great Encounters Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/greatencounters"><img src="/card/logo/greatencounters-th.png" loading="lazy" alt="Great Encounters Set Icon" /></a></td>
+<td class="cen"><a href="/card/greatencounters"><u>Great Encounters</u></a></td>
+<td class="cen">106</td>
+<td class="cen"><a href="/card/greatencounters">February 13th 2008</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/secretwonders"><img src="/card/logo/secretwonders.png" loading="lazy" alt="Secret Wonders Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/secretwonders"><img src="/card/logo/secretwonders-th.png" loading="lazy" alt="Secret Wonders Set Icon" /></a></td>
+<td class="cen"><a href="/card/secretwonders"><u>Secret Wonders</u></a></td>
+<td class="cen">132</td>
+<td class="cen"><a href="/card/secretwonders">November 7th 2007</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/mysterioustreasures"><img src="/card/logo/mysterioustreasures.png" loading="lazy" alt="Mysterious Treasures Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/mysterioustreasures"><img src="/card/logo/mysterioustreasures-th.png" loading="lazy" alt="Mysterious Treasures Set Icon" /></a></td>
+<td class="cen"><a href="/card/mysterioustreasures"><u>Mysterious Treasures</u></a></td>
+<td class="cen">124</td>
+<td class="cen"><a href="/card/mysterioustreasures">August 22nd 2007</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/diamondandpearl"><img src="/card/logo/diamondandpearl.png" loading="lazy" alt="Diamond and Pearl Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/diamondandpearl"><img src="/card/logo/diamondandpearl-th.png" loading="lazy" alt="Diamond and Pearl Set Icon" /></a></td>
+<td class="cen"><a href="/card/diamondandpearl"><u>Diamond and Pearl</u></a></td>
+<td class="cen">130</td>
+<td class="cen"><a href="/card/diamondandpearl">May 23rd 2007</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/expowerkeepers"><img src="/card/logo/expowerkeepers.png" loading="lazy" alt="EX Power Keepers Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/expowerkeepers"><img src="/card/logo/expowerkeepers-th.png" loading="lazy" alt="EX Power Keepers Set Icon" /></a></td>
+<td class="cen"><a href="/card/expowerkeepers"><u>EX Power Keepers</u></a></td>
+<td class="cen">108</td>
+<td class="cen"><a href="/card/expowerkeepers">Februrary 14th 2007</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exdragonfrontiers"><img src="/card/logo/exdragonfrontiers.png" loading="lazy" alt="EX Dragon Frontiers Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exdragonfrontiers"><img src="/card/logo/exdragonfrontiers-th.png" loading="lazy" alt="EX Dragon Frontiers Set Icon" /></a></td>
+<td class="cen"><a href="/card/exdragonfrontiers"><u>EX Dragon Frontiers</u></a></td>
+<td class="cen">101</td>
+<td class="cen"><a href="/card/exdragonfrontiers">November 8th 2006</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/excrystalguardians"><img src="/card/logo/excrystalguardians.png" loading="lazy" alt="EX Crystal Guardians Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/excrystalguardians"><img src="/card/logo/excrystalguardians-th.png" loading="lazy" alt="EX Crystal Guardians Set Icon" /></a></td>
+<td class="cen"><a href="/card/excrystalguardians"><u>EX Crystal Guardians</u></a></td>
+<td class="cen">100</td>
+<td class="cen"><a href="/card/excrystalguardians">August 30th 2006</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exholonphantoms"><img src="/card/logo/exholonphantoms.png" loading="lazy" alt="EX Holon Phantoms Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exholonphantoms"><img src="/card/logo/exholonphantoms-th.png" loading="lazy" alt="EX Holon Phantoms Set Icon" /></a></td>
+<td class="cen"><a href="/card/exholonphantoms"><u>EX Holon Phantoms</u></a></td>
+<td class="cen">111</td>
+<td class="cen"><a href="/card/exholonphantoms">May 3rd 2006</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exlegendmaker"><img src="/card/logo/exlegendmaker.png" loading="lazy" alt="EX Legend Maker Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exlegendmaker"><img src="/card/logo/exlegendmaker-th.png" loading="lazy" alt="EX Legend Maker Set Icon" /></a></td>
+<td class="cen"><a href="/card/exlegendmaker"><u>EX Legend Maker</u></a></td>
+<td class="cen">93</td>
+<td class="cen"><a href="/card/exlegendmaker">February 13th 2006</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exdeltaspecies"><img src="/card/logo/exdeltaspecies.png" loading="lazy" alt="EX Delta Species Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exdeltaspecies"><img src="/card/logo/exdeltaspecies-th.png" loading="lazy" alt="EX Delta Species Set Icon" /></a></td>
+<td class="cen"><a href="/card/exdeltaspecies"><u>EX Delta Species</u></a></td>
+<td class="cen">114</td>
+<td class="cen"><a href="/card/exdeltaspecies">October 31st 2005</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exunseenforces"><img src="/card/logo/exunseenforces.png" loading="lazy" alt="EX Unseen Forces Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exunseenforces"><img src="/card/logo/exunseenforces-th.png" loading="lazy" alt="EX Unseen Forces Set Icon" /></a></td>
+<td class="cen"><a href="/card/exunseenforces"><u>EX Unseen Forces</u></a></td>
+<td class="cen">145</td>
+<td class="cen"><a href="/card/exunseenforces">August 22nd 2005</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exemerald"><img src="/card/logo/exemerald.png" loading="lazy" alt="EX Emerald Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exemerald"><img src="/card/logo/exemerald-th.png" loading="lazy" alt="EX Emerald Set Icon" /></a></td>
+<td class="cen"><a href="/card/exemerald"><u>EX Emerald</u></a></td>
+<td class="cen">107</td>
+<td class="cen"><a href="/card/exemerald">May 9th 2005</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exdeoxys"><img src="/card/logo/exdeoxys.png" loading="lazy" alt="EX Deoxys Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exdeoxys"><img src="/card/logo/exdeoxys-th.png" loading="lazy" alt="EX Deoxys Set Icon" /></a></td>
+<td class="cen"><a href="/card/exdeoxys"><u>EX Deoxys</u></a></td>
+<td class="cen">108</td>
+<td class="cen"><a href="/card/exdeoxys">February 14th 2005</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exteamrocketreturns"><img src="/card/logo/exteamrocketreturns.png" loading="lazy" alt="EX Team Rocket Returns Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exteamrocketreturns"><img src="/card/logo/exteamrocketreturns-th.png" loading="lazy" alt="EX Team Rocket Returns Set Icon" /></a></td>
+<td class="cen"><a href="/card/exteamrocketreturns"><u>EX Team Rocket Returns</u></a></td>
+<td class="cen">111</td>
+<td class="cen"><a href="/card/exteamrocketreturns">November 8th 2004</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exfireredandleafgreen"><img src="/card/logo/exfireredandleafgreen.png" loading="lazy" alt="EX FireRed and Leaf Green Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exfireredandleafgreen"><img src="/card/logo/exfireredandleafgreen-th.png" loading="lazy" alt="EX FireRed and Leaf Green Set Icon" /></a></td>
+<td class="cen"><a href="/card/exfireredandleafgreen"><u>EX FireRed and Leaf Green</u></a></td>
+<td class="cen">116</td>
+<td class="cen"><a href="/card/exfireredandleafgreen">August 30th 2004</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exhiddenlegends"><img src="/card/logo/exhiddenlegends.png" loading="lazy" alt="EX Hidden Legends Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exhiddenlegends"><img src="/card/logo/exhiddenlegends-th.png" loading="lazy" alt="EX Hidden Legends Set Icon" /></a></td>
+<td class="cen"><a href="/card/exhiddenlegends"><u>EX Hidden Legends</u></a></td>
+<td class="cen">102</td>
+<td class="cen"><a href="/card/exhiddenlegends">June 14th 2004</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exteammagmavsteamaqua"><img src="/card/logo/exteammagmavsteamaqua.png" loading="lazy" alt="EX Team Magma VS Team Aqua Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exteammagmavsteamaqua"><img src="/card/logo/exteammagmavsteamaqua-th.png" loading="lazy" alt="EX Team Magma VS Team Aqua Set Icon" /></a></td>
+<td class="cen"><a href="/card/exteammagmavsteamaqua"><u>EX Team Magma VS Team Aqua</u></a></td>
+<td class="cen">97</td>
+<td class="cen"><a href="/card/exteammagmavsteamaqua">March 15th 2004</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exdragon"><img src="/card/logo/exdragon.png" loading="lazy" alt="EX Dragon Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exdragon"><img src="/card/logo/exdragon-th.png" loading="lazy" alt="EX Dragon Set Icon" /></a></td>
+<td class="cen"><a href="/card/exdragon"><u>EX Dragon</u></a></td>
+<td class="cen">100</td>
+<td class="cen"><a href="/card/exdragon">November 24th 2003</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exsandstorm"><img src="/card/logo/exsandstorm.png" loading="lazy" alt="EX Sandstorm Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exsandstorm"><img src="/card/logo/exsandstorm-th.png" loading="lazy" alt="EX Sandstorm Set Icon" /></a></td>
+<td class="cen"><a href="/card/exsandstorm"><u>EX Sandstorm</u></a></td>
+<td class="cen">100</td>
+<td class="cen"><a href="/card/exsandstorm">September 17th 2003</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/exrubyandsapphire"><img src="/card/logo/exrubyandsapphire.png" loading="lazy" alt="EX Ruby and Sapphire Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/exrubyandsapphire"><img src="/card/logo/exrubyandsapphire-th.png" loading="lazy" alt="EX Ruby and Sapphire Set Icon" /></a></td>
+<td class="cen"><a href="/card/exrubyandsapphire"><u>EX Ruby and Sapphire</u></a></td>
+<td class="cen">109</td>
+<td class="cen"><a href="/card/exrubyandsapphire">June 18th 2003</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/skyridge"><img src="/card/logo/skyridge.png" loading="lazy" alt="Skyridge Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/skyridge"><img src="/card/logo/skyridge-th.png" loading="lazy" alt="Skyridge Set Icon" /></a></td>
+<td class="cen"><a href="/card/skyridge"><u>Skyridge</u></a></td>
+<td class="cen">182</td>
+<td class="cen"><a href="/card/skyridge">May 12th 2003</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/aquapolis"><img src="/card/logo/aquapolis.png" loading="lazy" alt="Aquapolis Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/aquapolis"><img src="/card/logo/aquapolis-th.png" loading="lazy" alt="Aquapolis Set Icon" /></a></td>
+<td class="cen"><a href="/card/aquapolis"><u>Aquapolis</u></a></td>
+<td class="cen">182</td>
+<td class="cen"><a href="/card/aquapolis">January 15th 2003</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/expedition"><img src="/card/logo/expedition.png" loading="lazy" alt="Expedition Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/expedition"><img src="/card/logo/expedition-th.png" loading="lazy" alt="Expedition Set Icon" /></a></td>
+<td class="cen"><a href="/card/expedition"><u>Expedition</u></a></td>
+<td class="cen">165</td>
+<td class="cen"><a href="/card/expedition">September 15th 2002</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/neodestiny"><img src="/card/logo/neodestiny.png" loading="lazy" alt="Neo Destiny Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/neodestiny"><img src="/card/logo/neodestiny-th.png" loading="lazy" alt="Neo Destiny Set Icon" /></a></td>
+<td class="cen"><a href="/card/neodestiny"><u>Neo Destiny</u></a></td>
+<td class="cen">113</td>
+<td class="cen"><a href="/card/neodestiny">February 28th 2002</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/neorevelation"><img src="/card/logo/neorevelation.png" loading="lazy" alt="Neo Revelation Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/neorevelation"><img src="/card/logo/neorevelation-th.png" loading="lazy" alt="Neo Revelation Set Icon" /></a></td>
+<td class="cen"><a href="/card/neorevelation"><u>Neo Revelation</u></a></td>
+<td class="cen">66</td>
+<td class="cen"><a href="/card/neorevelation">September 21st 2001</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/neodiscovery"><img src="/card/logo/neodiscovery.png" loading="lazy" alt="Neo Discovery Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/neodiscovery"><img src="/card/logo/neodiscovery-th.png" loading="lazy" alt="Neo Discovery Set Icon" /></a></td>
+<td class="cen"><a href="/card/neodiscovery"><u>Neo Discovery</u></a></td>
+<td class="cen">75</td>
+<td class="cen"><a href="/card/neodiscovery">June 1st 2001</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/neogenesis"><img src="/card/logo/neogenesis.png" loading="lazy" alt="Neo Genesis Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/neogenesis"><img src="/card/logo/neogenesis-th.png" loading="lazy" alt="Neo Genesis Set Icon" /></a></td>
+<td class="cen"><a href="/card/neogenesis"><u>Neo Genesis</u></a></td>
+<td class="cen">111</td>
+<td class="cen"><a href="/card/neogenesis">December 16th 2000</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/gymchallenge"><img src="/card/logo/gymchallenge.png" loading="lazy" alt="Gym Challenge Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/gymchallenge"><img src="/card/logo/gymchallenge-th.png" loading="lazy" alt="Gym Challenge Set Icon" /></a></td>
+<td class="cen"><a href="/card/gymchallenge"><u>Gym Challenge</u></a></td>
+<td class="cen">132</td>
+<td class="cen"><a href="/card/gymchallenge">October 16th 2000</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/gymheroes"><img src="/card/logo/gymheroes.png" loading="lazy" alt="Gym Heroes Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/gymheroes"><img src="/card/logo/gymheroes-th.png" loading="lazy" alt="Gym Heroes Set Icon" /></a></td>
+<td class="cen"><a href="/card/gymheroes"><u>Gym Heroes</u></a></td>
+<td class="cen">132</td>
+<td class="cen"><a href="/card/gymheroes">August 14th 2000</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/teamrocket"><img src="/card/logo/teamrocket.png" loading="lazy" alt="Team Rocket Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/teamrocket"><img src="/card/logo/teamrocket-th.png" loading="lazy" alt="Team Rocket Set Icon" /></a></td>
+<td class="cen"><a href="/card/teamrocket"><u>Team Rocket</u></a></td>
+<td class="cen">83</td>
+<td class="cen"><a href="/card/teamrocket">April 24th 2000</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/fossil"><img src="/card/logo/fossil.png" loading="lazy" alt="Fossil Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/fossil"><img src="/card/logo/fossil-th.png" loading="lazy" alt="Fossil Set Icon" /></a></td>
+<td class="cen"><a href="/card/fossil"><u>Fossil</u></a></td>
+<td class="cen">62</td>
+<td class="cen"><a href="/card/fossil">October 10th 1999</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/jungle"><img src="/card/logo/jungle.png" loading="lazy" alt="Jungle Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/jungle"><img src="/card/logo/jungle-th.png" loading="lazy" alt="Jungle Set Icon" /></a></td>
+<td class="cen"><a href="/card/jungle"><u>Jungle</u></a></td>
+<td class="cen">64</td>
+<td class="cen"><a href="/card/jungle">June 16th 1999</a></td>
+</tr>
+<tr>
+<td class="cen"><a href="/card/base"><img src="/card/logo/base.png" loading="lazy" alt="Base Set Icon" height="40" /></a></td>
+<td class="cen"><a href="/card/base"><img src="/card/logo/base-th.png" loading="lazy" alt="Base Set Icon" /></a></td>
+<td class="cen"><a href="/card/base"><u>Base</u></a></td>
+<td class="cen">102</td>
+<td class="cen"><a href="/card/base">January 9th 1999</a></td>
+</tr>
+</table>
+
+</main></div><!-- END #content -->
+
+<aside id="rbar">
+	<a href="/potw-champions/" class="navheader">Pokémon of the Week</a>
+	<div align="center">
+		<a href="/potw-champions/478.shtml"><img src="/potw-champions/478.jpg" alt="Pokémon of the Week"  class="tbarpic"></a>
+	</div>
+	<div class="navheader">Next In Japan</div>
+	<div>
+		<div align="center"><img src="/anime/NextOn/1379.jpg"  class="tbarpic"></div>
+		Episode 143<br/>
+		<b>A Dream Ball for You!</b><br/>
+		<div align="center"><img src="/anime/NextOn/1379-i.jpg"  class="tbarpic"></div>
+			Airdate: 17/07/2026
+	</div>
+	<div class="navheader">Recently In USA</div>
+	<div>
+		<div align="center"><a href="/anime/epiguide/pokemon2023/123.shtml"><img src="/1359.jpg"  class="tbarpic"></div>
+		Episode 123<br/>
+		<b> Mochi Mayhem!</b><br />
+		<img src="/anime/synopsis.gif">Synopsis</a><br/>
+		<a href="/anime/pictures/pokemon2023/123.shtml"><img src="/anime/pictures.gif">Pictures</a><br/>
+	</div>
+	<div class="navheader">Next In USA</div>
+	<div>
+		<div align="center"><a href="/anime/epiguide/pokemon2023/124.shtml"><img src="/1360.jpg"  class="tbarpic"></div>
+		Episode 124<br/>
+		<b> Operation Infiltration!</b><br />
+		Airdate: 2026</a><br />
+		<a href="/anime/epiguide/pokemon2023/124.shtml"><img src="/anime/synopsis.gif">Synopsis</a><br/>
+		<a href="/anime/pictures/pokemon2023/124.shtml"><img src="/anime/pictures.gif">Pictures</a><br/>
+	</div>
+	<div class="navheader">Social Media</div>
+	<div class="center">
+		<a href="https://www.facebook.com/SerebiiNetPage" target="blank"><img src="/Toolbar/headers/Facebook.png" width="30" alt="Facebook"/></a>
+		<a href="https://www.twitter.com/SerebiiNet" target="blank"><img src="/Toolbar/headers/Twitter.png" width="30" alt="Twitter"/></a>
+		<a href="https://bsky.app/profile/serebii.bsky.social" target="blank" rel="me"><img src="/Toolbar/headers/bluesky.png" width="30" alt="BlueSky"/></a>
+		<a href="https://www.youtube.com/serebiispp" target="blank"><img src="/Toolbar/headers/youtube.png" width="30" alt="YouTube"/></a>
+		<a href="https://www.instagram.com/serebii" target="blank" rel="nofollow"><img src="/Toolbar/headers/instagram.png" width="30" alt="Instagram"/></a>
+		<a href="https://www.threads.net/@serebii" target="blank" rel="nofollow"><img src="/Toolbar/headers/threads.png" width="30" alt="Threads"/></a>
+	</div>
+	<div class="navheader">Support Us</div>
+	<div class="center">
+		<a href="https://www.patreon.com/serebiinet" target="blank" rel="nofollow"><img src="/Toolbar/headers/patreon.png" width="50" alt="Patreon"/></a>
+</div>
+	<div class="navheader">In Association With</div>
+	<div class="center">
+		<a href="http://www.pocketmonsters.net/" target="blank" rel="nofollow"><img src="/Toolbar/pm.png" alt="#PM"></a><br/>
+		<a href="http://www.legendarypokemon.net/" target="blank" rel="nofollow"><img src="/Toolbar/lpoke.png" alt="Legendary Pokémon"></a>
+	</div>
+</aside>
+</div><!-- END #wrapper -->
+
+<footer id="footer">
+	<div class="copyright">
+		<a href="#top" alt="Top of Page" title="Top of Page" class="totop"></a>
+
+		All Content is &copy; Copyright of Serebii.net 1999-2026. |
+		<a href="/privacy.shtml">Privacy Policy</a> |
+		<a class="nn-cmp-show" href="#">Manage Cookie Settings</a><br/>
+		Pokémon and All Respective Names are Trademark &amp; &copy; of Nintendo 1996-2026<br /><br />
+<a href="https://www.patreon.com/serebiinet" target="blank" rel="nofollow"></u>Support us on Patreon</u></a>
+	</div>
+
+	<div style="height:102px">
+		<div id="nn_lb2"></div><div id="nn_mobile_lb2"></div>
+<div id="celtra-reveal-wrapper" style="position:fixed; height: auto; width: 100%">
+<div id="nn_1by1"></div>
+</div>
+	</div>
+<script data-cfasync="false" async src="//cdn.intergient.com/1025662/76683/ramp.js"></script>
+</footer>
+
+
+</body>
+
+</html>
