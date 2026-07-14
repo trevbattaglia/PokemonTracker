@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import requests
 
 from ..config import MAX_ALERTS_PER_RUN, discord_webhook_url
+from . import buylinks
 
 TIMEOUT = 15
 COLOR_NEW = 0xFFCB05      # Pokemon yellow
@@ -37,12 +38,15 @@ def _embed(row, *, color: int, title_prefix: str) -> dict:
         f
         for f in (
             {"name": "When", "value": when_text, "inline": False},
-            _field(row, "Retailer", row["retailer"]),
             _field(row, "MSRP", f"${row['msrp']:.2f}" if row["msrp"] else None),
             _field(row, "Set", row["set_name"]),
         )
         if f
     ]
+
+    # The whole point of the notification: get to a checkout page in one tap.
+    # Goes last so it sits closest to the thumb.
+    fields.append(buylinks.buy_field(row["set_name"] or row["product_name"]))
 
     embed = {
         "title": f"{title_prefix} {row['product_name']}",
@@ -51,6 +55,8 @@ def _embed(row, *, color: int, title_prefix: str) -> dict:
         "footer": {"text": f"source: {row['source']}"},
     }
     if row["product_url"]:
+        # Serebii's set page -- reference info, not a store. The Buy field is
+        # what you actually tap.
         embed["url"] = row["product_url"]
     return embed
 

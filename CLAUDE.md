@@ -100,6 +100,39 @@ Local: `.env` (gitignored). CI: repo secret. Never in source.
   #1 failure mode; `cli.py` catches exceptions and posts them to Discord.
 - Discord and network are mocked. CI never posts to the real channel.
 
+## Buy links
+
+Each embed carries a `Buy` field: deterministic **search** URLs for Pokémon
+Center, Best Buy, Target, Walmart, Amazon. Not scraped product URLs, for two
+reasons:
+
+1. **Pokémon Center is behind Imperva Incapsula** and serves a JS challenge to
+   any non-browser client — even `robots.txt`. Getting product URLs out of it
+   means defeating that, which is the anti-bot evasion this project refuses to
+   do. We back off, per the non-goals.
+2. **The link doesn't need to be fetchable by us** — only tappable by a human.
+   Incapsula blocks bots, not browsers. So a search URL works fine, costs zero
+   requests, and can't decay when a retailer reshuffles its catalogue.
+
+Formats in `relay/buylinks.py` are hand-verified against real browser searches.
+PC takes the term in the *path* (so path-encoding, not `quote_plus`) and skips
+the "Pokemon TCG" prefix, since it only sells Pokémon and the extra words just
+narrow results. Everywhere else needs the prefix — a bare "Pitch Black" on
+Amazon returns paint.
+
+## Known gaps
+
+- **We track sets, not products.** Serebii lists "Pitch Black"; the things you
+  actually buy are the Elite Trainer Box, Booster Bundle, and Display Box, at
+  different prices and different stock levels. The watchlist idea in the
+  handover doc (`match: "Elite Trainer Box"`, `max_price: 60.00`) needs
+  product-level data that no current source provides.
+- **MSRP is always null** for the same reason — it's per-product, not per-set.
+- **No stock signal.** A drop date is not an in-stock event. Pokémon Center had
+  every Pitch Black product SOLD OUT three days *before* the 7/17 release, so
+  its real buying moment (preorder) had already passed by the time a
+  release-date calendar would fire. This is the strongest argument for Phase 2.
+
 ## Source gotchas
 
 - The page declares **no charset** and is **windows-1252**. `requests` guesses
