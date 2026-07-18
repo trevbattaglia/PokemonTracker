@@ -1,0 +1,69 @@
+name: tick
+
+# The every-15-minutes heartbeat: reminders first, then the restock relay, in
+# one job that commits the DB once.
+#
+# This used to be two workflows (remind.yml + relay.yml), both on `*/15` and
+# both in the pkmn-db-write concurrency group. That meant two scheduled runs
+# contended for one slot every quarter-hour, and GitHub drops queued scheduled
+# runs under load -- so in practice the relay landed ~hourly, not every 15 min,
+# with gaps up to 3+ hours. Merging removes the self-inflicted contention: one
+# run does both, so there is nothing to queue behind.
+#
+# Why `*/15` at all: a ~30-min-ahead "starting soon" ping is unreachable on an
+# hourly cron -- the drop is 60min out on one run and 0min out on the next. The
+# 40-min lead in cli.py is sized for this cadence plus Actions' own drift.
+#
+# (GitHub still throttles the `schedule` event itself; this fixes the half we
+# control. workflow_dispatch is here for a manual "run now".)
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  # Still shared with calendar.yml (the daily scrape) so the two never race to
+  # commit the binary, un-mergeable data/drops.db. cancel-in-progress: false so
+  # a run in flight is never dropped mid-write.
+  group: pkmn-db-write
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    env:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      BESTBUY_API_KEY: ${{ secrets.BESTBUY_API_KEY }} # optional second relay source
+      PKMN_TZ: America/Los_Angeles
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e .
+
+      # Reminders run first: they're the timing-critical half. cli.py catches
+      # its own errors, posts them to Discord, and exits 1.
+      - name: Send due reminders
+        run: python -m pkmn_drops.cli remind
+
+      # Always run the relay even if reminders failed -- the two were
+      # independent workflows before this merge, and a reminder hiccup must not
+      # cost a restock alert. !cancelled() keeps a manual cancel honest.
+      - name: Check for restocks
+        if: ${{ !cancelled() }}
+        run: python -m pkmn_drops.cli relay
+
+      # One commit for both. Runs even on a prior failure: `remind` marks each
+      # stage sent the moment it fires, so those writes MUST be persisted or the
+      # pings re-fire next run.
+      - name: Persist state
+        if: ${{ !cancelled() }}
+        uses: ./.github/actions/commit-db
+        with:
+          message: "state: tick"

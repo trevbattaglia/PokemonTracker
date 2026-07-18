@@ -5,9 +5,10 @@ description: Commit the SQLite state DB back to the repo.
 # load-bearing: notified_at lives in that file, and if it is lost every
 # reminder re-fires on the next run.
 #
-# The DB is binary and cannot be merged. Both workflows share a concurrency
-# group and run at different minutes (:08 vs :17), so a collision is already
-# unlikely. If one happens anyway we rebase preferring OUR copy rather than
+# The DB is binary and cannot be merged. The two writers left -- tick.yml
+# (*/15) and calendar.yml (daily) -- share a concurrency group, so they
+# serialize rather than collide. If a push races anyway (e.g. a human hits
+# workflow_dispatch) we rebase preferring OUR copy rather than
 # leaving a half-finished rebase behind. That choice is safe because both
 # failure modes are bounded and self-healing:
 #   - losing a row  -> the next daily scrape re-adds it (scrape is idempotent)

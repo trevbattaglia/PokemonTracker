@@ -44,8 +44,7 @@ Crons:
 | Workflow       | When              | Does                                             |
 | -------------- | ----------------- | ------------------------------------------------ |
 | `calendar.yml` | daily 15:17 UTC   | scrape, diff, post digest of new/rescheduled     |
-| `remind.yml`   | every 15 min      | post any due reminder stage                      |
-| `relay.yml`    | every 15 min      | Phase 2: alert on watchlisted restocks           |
+| `tick.yml`     | every 15 min      | reminders due, then Phase 2 restock alerts       |
 
 State lives in `data/drops.db`, committed back to the repo by each run because
 Actions runners are ephemeral. The `sent` table is what stops a reminder firing
@@ -73,7 +72,15 @@ The 40min lead is wider than the nominal 30 on purpose: the cron runs every
 15min and Actions drifts 5–15min under load, so a strict 30 would let a late
 runner skip the window entirely. In practice the ping lands ~25–40min ahead.
 Hourly cron cannot do this at all — the drop is 60min out on one run and 0min
-out on the next — which is why `remind.yml` is `*/15`.
+out on the next — which is why `tick.yml` is `*/15`.
+
+Reminders and the restock relay share one `*/15` job (`tick.yml`) on purpose.
+They were two workflows once; both fired `*/15` into the same `pkmn-db-write`
+concurrency group, so every quarter-hour two scheduled runs contended for one
+slot and GitHub silently dropped the loser — the relay ended up landing
+~hourly, with gaps past 3h. One job doing both, committing the DB once, removes
+that contention. (GitHub still throttles the `schedule` event itself; that half
+is out of our hands.)
 
 ## Getting a true "30 minutes before"
 
