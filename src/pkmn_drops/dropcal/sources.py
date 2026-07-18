@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import requests
 
+from .. import net
+
 SEREBII_ENGLISH_SETS = "https://www.serebii.net/card/english.shtml"
 
 USER_AGENT = "pkmn-drops/0.1 (personal drop calendar; contact via GitHub)"
@@ -19,13 +21,14 @@ class SourceError(RuntimeError):
 
 
 def fetch_serebii_english() -> str:
+    # net.get rides out a transient timeout with a short backoff; a bad status
+    # or an outage that outlasts the retries still lands here as SourceError.
     try:
-        resp = requests.get(
+        resp = net.get(
             SEREBII_ENGLISH_SETS,
             headers={"User-Agent": USER_AGENT},
             timeout=TIMEOUT,
         )
-        resp.raise_for_status()
     except requests.RequestException as exc:
         raise SourceError(f"serebii fetch failed: {exc}") from exc
 

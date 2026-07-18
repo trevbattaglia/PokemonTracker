@@ -1,7 +1,7 @@
 """Best Buy Products API ingest.
 
 Why Best Buy and not a scraper: this is an *official, keyed, sanctioned* API
-with a published 5 req/sec, 50k req/day allowance. Polling it every 15 minutes
+with a published 5 req/sec, 50k req/day allowance. Polling it every 30 minutes
 is nowhere near the "high-frequency polling" the design doc rules out -- that
 non-goal is about hammering retailers who never invited you. Best Buy did.
 

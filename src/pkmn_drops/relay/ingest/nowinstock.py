@@ -28,6 +28,7 @@ from typing import NamedTuple
 import requests
 from bs4 import BeautifulSoup
 
+from ... import net
 from ...models import Product
 
 URL = "https://www.nowinstock.net/collectibles/tradingcards/pokemoncards/"
@@ -78,9 +79,11 @@ class IngestResult(NamedTuple):
 
 
 def fetch() -> str:
+    # net.get retries a transient timeout so one network blip doesn't crash the
+    # 15-min relay and dump a traceback to Discord; a bad status or an outage
+    # that survives the retries still surfaces here as NowInStockError.
     try:
-        resp = requests.get(URL, headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT)
-        resp.raise_for_status()
+        resp = net.get(URL, headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT)
     except requests.RequestException as exc:
         raise NowInStockError(f"nowinstock fetch failed: {exc}") from exc
     # Honestly declares UTF-8 in both the meta tag and the Content-Type header,
