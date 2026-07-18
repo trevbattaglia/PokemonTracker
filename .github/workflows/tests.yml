@@ -2,6 +2,12 @@ name: tests
 
 on:
   push:
+    # The tick/calendar crons commit data/drops.db back to main on nearly every
+    # run (last_seen is rewritten each time). Those are machine-generated blob
+    # commits with no code change, so don't spend a test run on them -- a push
+    # that touches only data/ is skipped, one that also touches code still runs.
+    paths-ignore:
+      - "data/**"
   pull_request:
   workflow_dispatch:
 
