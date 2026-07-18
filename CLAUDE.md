@@ -44,11 +44,11 @@ Crons:
 | Workflow       | When              | Does                                             |
 | -------------- | ----------------- | ------------------------------------------------ |
 | `calendar.yml` | daily 15:17 UTC   | scrape, diff, post digest of new/rescheduled     |
-| `tick.yml`     | every 15 min      | reminders due, then Phase 2 restock alerts       |
+| `tick.yml`     | every 30 min      | reminders due, then Phase 2 restock alerts       |
 
 State lives in `data/drops.db`, committed back to the repo by each run because
 Actions runners are ephemeral. The `sent` table is what stops a reminder firing
-every 15 minutes — losing it means duplicate pings.
+on every run — losing it means duplicate pings.
 
 ## Reminder timing (the non-obvious bit)
 
@@ -62,25 +62,31 @@ Each drop passes through stages, tracked per-stage in the `sent` table:
 | Stage           | Fires                                    | Applies to |
 | --------------- | ---------------------------------------- | ---------- |
 | `day_before`    | 08:00 local, the day before              | every drop |
-| `starting_soon` | within `REMINDER_LEAD_MINUTES` (40)      | timed only |
+| `starting_soon` | within `REMINDER_LEAD_MINUTES` (60)      | timed only |
 | `morning_of`    | 08:00 local, on the day                  | date-only  |
 
 So a date-only drop gets *day before* + *morning of*; a drop with a known time
-gets *day before* + *~30 min before*.
+gets *day before* + an advance ping ~30–60 min before.
 
-The 40min lead is wider than the nominal 30 on purpose: the cron runs every
-15min and Actions drifts 5–15min under load, so a strict 30 would let a late
-runner skip the window entirely. In practice the ping lands ~25–40min ahead.
-Hourly cron cannot do this at all — the drop is 60min out on one run and 0min
-out on the next — which is why `tick.yml` is `*/15`.
+The lead is sized to the poll interval, not to a fixed "30 min": `starting_soon`
+fires on the first run that finds the drop within `REMINDER_LEAD_MINUTES` ahead,
+so the lead must clear the gap between runs plus Actions' 5–15min drift, or a
+late runner skips the window entirely. At the `*/30` cadence that means **60**
+(two polls inside the window; the ping lands ~30–60min ahead). It was 40 back
+when the cron was `*/15`. Hourly cron cannot do this at all — the drop is 60min
+out on one run and 0min out on the next — so `tick.yml` stays at `*/30` or
+tighter. **If you change the interval, change the lead in step** (`config.py`).
 
-Reminders and the restock relay share one `*/15` job (`tick.yml`) on purpose.
-They were two workflows once; both fired `*/15` into the same `pkmn-db-write`
+Reminders and the restock relay share one `*/30` job (`tick.yml`) on purpose.
+They were two workflows once, both firing `*/15` into the same `pkmn-db-write`
 concurrency group, so every quarter-hour two scheduled runs contended for one
 slot and GitHub silently dropped the loser — the relay ended up landing
 ~hourly, with gaps past 3h. One job doing both, committing the DB once, removes
-that contention. (GitHub still throttles the `schedule` event itself; that half
-is out of our hands.)
+that contention. The interval is `*/30` rather than `*/15` because every run
+rewrites `last_seen` on ~226 rows and thus commits the binary DB; `*/30` halves
+that history churn and still tracks close to GitHub's throttled delivery.
+(GitHub throttles the `schedule` event itself regardless; that half is out of
+our hands.)
 
 ## Getting a true "30 minutes before"
 
@@ -164,7 +170,7 @@ Every direct-retailer path was tried first and is provably closed:
 
 NowInStock's `robots.txt` permits `/collectibles/` (it disallows only
 `get_item.php` and alert-setting endpoints) and sets no `Crawl-delay`. One page
-every 15 minutes is ~96 requests/day — not the "high-frequency polling" the
+every 30 minutes is ~48 requests/day — not the "high-frequency polling" the
 non-goals rule out.
 
 `relay/ingest/bestbuy.py` is kept and tested. If `BESTBUY_API_KEY` ever exists
@@ -179,7 +185,7 @@ the links resolve to the same product.
 Two rules do the real work:
 
 - **Alert on the transition into stock, never on being in stock.** The cron
-  runs every 15min; without this one restock pings you forever.
+  runs on a schedule; without this one restock pings you on every run forever.
 - **Seed silently on first contact with a retailer.** Otherwise run one alerts
   on Best Buy's entire in-stock catalogue at once.
 

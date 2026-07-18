@@ -1,6 +1,6 @@
 """Shared HTTP GET with retry on a transient network blip.
 
-Both sources are polled on a schedule -- the relay every 15 minutes, the drop
+Both sources are polled on a schedule -- the relay every 30 minutes, the drop
 scrape daily -- so a single connect/read timeout is a hiccup to ride out, not a
 failure worth announcing. Without this, one momentary timeout crashed a run and
 posted a full traceback to Discord: a false alarm for something the next run 15

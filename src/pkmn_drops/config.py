@@ -33,11 +33,14 @@ def discord_webhook_url() -> str:
     return url
 
 
-# Target is "about 30 minutes before". The window is wider than 30 on purpose:
-# the cron runs every 15min and Actions drifts 5-15min under load, so a strict
-# 30 would let a late runner skip the window entirely and ping nothing. At 40
-# the first qualifying run lands roughly 25-40min out -- early, never missed.
-REMINDER_LEAD_MINUTES = 40
+# The window is sized to the poll interval: `starting_soon` fires on the first
+# run that finds the drop within LEAD minutes ahead, so LEAD must exceed the
+# gap between runs plus Actions' 5-15min drift, or a late runner skips the
+# window entirely and pings nothing. The tick runs every 30min (see tick.yml),
+# so 60 keeps at least two polls inside the window; the first qualifying run
+# lands roughly 30-60min out -- early, never missed. (At the old */15 cadence
+# this was 40.) Raise it in step if the interval ever widens again.
+REMINDER_LEAD_MINUTES = 60
 
 # Date-only drops (Serebii publishes dates, never times) are anchored to local
 # midnight. A T-minus ping would fire ~11pm the night before, so they get a

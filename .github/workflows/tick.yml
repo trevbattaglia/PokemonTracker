@@ -1,24 +1,28 @@
 name: tick
 
-# The every-15-minutes heartbeat: reminders first, then the restock relay, in
+# The every-30-minutes heartbeat: reminders first, then the restock relay, in
 # one job that commits the DB once.
 #
 # This used to be two workflows (remind.yml + relay.yml), both on `*/15` and
 # both in the pkmn-db-write concurrency group. That meant two scheduled runs
 # contended for one slot every quarter-hour, and GitHub drops queued scheduled
-# runs under load -- so in practice the relay landed ~hourly, not every 15 min,
-# with gaps up to 3+ hours. Merging removes the self-inflicted contention: one
-# run does both, so there is nothing to queue behind.
+# runs under load -- so in practice the relay landed ~hourly, with gaps up to
+# 3+ hours. Merging removes the self-inflicted contention: one run does both,
+# so there is nothing to queue behind.
 #
-# Why `*/15` at all: a ~30-min-ahead "starting soon" ping is unreachable on an
-# hourly cron -- the drop is 60min out on one run and 0min out on the next. The
-# 40-min lead in cli.py is sized for this cadence plus Actions' own drift.
+# Why */30 and not */15: every run rewrites last_seen on ~226 rows, so each one
+# commits the binary data/drops.db -- */15 was ~96 blob commits/day. */30 halves
+# that churn and still tracks close to what GitHub's throttled scheduler
+# actually delivers. It's no slower for the "starting soon" ping: that needs at
+# least two polls inside its lead window, so REMINDER_LEAD_MINUTES is 60 to
+# match this cadence (see config.py). Hourly would break the ping -- the drop is
+# 60min out on one run and 0min out on the next.
 #
-# (GitHub still throttles the `schedule` event itself; this fixes the half we
+# (GitHub still throttles the `schedule` event itself; this tunes the half we
 # control. workflow_dispatch is here for a manual "run now".)
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:

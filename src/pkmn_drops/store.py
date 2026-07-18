@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS sent (
 );
 
 -- Phase 2. Last known stock level per SKU, so we can alert on the *transition*
--- into stock rather than on "is in stock", which would re-ping every 15min for
+-- into stock rather than on "is in stock", which would re-ping on every run for
 -- as long as the item stayed available.
 CREATE TABLE IF NOT EXISTS products (
     sku        TEXT NOT NULL,
@@ -262,7 +262,7 @@ def upsert_products(
     """Record stock levels. Returns only genuine restocks worth pinging.
 
     A restock is a *transition* into stock, not a state of being in stock --
-    otherwise every 15min run would re-ping every available item forever.
+    otherwise every run would re-ping every available item forever.
 
     The first time we ever see a retailer we seed silently. Without that, run
     one would alert on its entire in-stock catalogue: dozens of pings, none of

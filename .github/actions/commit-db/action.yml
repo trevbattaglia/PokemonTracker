@@ -6,7 +6,7 @@ description: Commit the SQLite state DB back to the repo.
 # reminder re-fires on the next run.
 #
 # The DB is binary and cannot be merged. The two writers left -- tick.yml
-# (*/15) and calendar.yml (daily) -- share a concurrency group, so they
+# (*/30) and calendar.yml (daily) -- share a concurrency group, so they
 # serialize rather than collide. If a push races anyway (e.g. a human hits
 # workflow_dispatch) we rebase preferring OUR copy rather than
 # leaving a half-finished rebase behind. That choice is safe because both
