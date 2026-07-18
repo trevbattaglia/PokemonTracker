@@ -10,6 +10,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import requests
 
 from pkmn_drops.relay.ingest import nowinstock
 from pkmn_drops.relay.ingest.nowinstock import NowInStockError, parse
@@ -169,6 +170,17 @@ def test_empty_page_fails_loudly():
 def test_all_rows_unknown_status_fails_loudly():
     with pytest.raises(NowInStockError, match="0 products"):
         parse(_row("X : Amazon", "Quantum Superposition", "$1.00"))
+
+
+def test_fetch_wraps_a_timeout_that_outlasts_retries(monkeypatch):
+    """A connect timeout is retried by net.get, but one that persists surfaces
+    as NowInStockError -- the domain error cli.py catches and reports."""
+    def dead(*_a, **_k):
+        raise requests.ConnectTimeout("nowinstock unreachable")
+
+    monkeypatch.setattr(nowinstock.net, "get", dead)
+    with pytest.raises(NowInStockError, match="fetch failed"):
+        nowinstock.fetch()
 
 
 def _row(label: str, status: str, price: str) -> str:
