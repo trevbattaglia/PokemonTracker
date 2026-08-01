@@ -139,13 +139,14 @@ def cmd_relay(args) -> int:
     matched = [p for p in deduped if watchlist.matches(p)]
     print(f"  {len(deduped)} after dedupe, {len(matched)} match the watchlist")
 
+    # Zero matches is a normal quiet run: the watchlist is deliberately narrow
+    # (specific sets + Pokemon Center editions), and those products aren't
+    # always on the feed. Scraper decay is caught upstream -- nowinstock.ingest
+    # raises if the *source* returns zero rows -- so a healthy fetch with no
+    # watchlist hit just means nothing to buy right now. Don't error-spam it.
     if not matched:
-        # Nothing matching at all means the watchlist and the catalogue have
-        # drifted apart. Fail loudly rather than look healthy while silent.
-        raise RuntimeError(
-            "no products matched the watchlist -- terms may be stale or the "
-            "source's markup changed"
-        )
+        print("  nothing on the watchlist is in stock -- quiet run")
+        return 0
 
     if args.dry_run:
         restocks = store.upsert_products(conn, matched, commit=False)

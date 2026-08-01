@@ -19,9 +19,17 @@ from ..models import Product
 
 @dataclass(frozen=True)
 class Rule:
-    match: str
+    # A single string is one required substring. A list means *every* term must
+    # be present (AND), which is how a rule can require both "Center" and "Elite
+    # Trainer Box" -- a Pokemon Center Edition ETB -- without also matching a
+    # plain ETB or a non-ETB Pokemon Center product.
+    match: str | tuple[str, ...]
     retailers: tuple[str, ...] = ()
     max_price: float | None = None
+
+    @property
+    def terms(self) -> tuple[str, ...]:
+        return (self.match,) if isinstance(self.match, str) else tuple(self.match)
 
 
 @dataclass(frozen=True)
@@ -36,7 +44,10 @@ class Watchlist:
             return False
 
         for rule in self.rules:
-            if rule.match.lower() not in name:
+            # Every required term must appear. Still dumb substring matching, no
+            # fuzzy logic -- just conjunctive now so a rule can pin down an
+            # edition, not only a product type.
+            if not all(t.lower() in name for t in rule.terms):
                 continue
             if rule.retailers and p.retailer not in rule.retailers:
                 continue
@@ -51,8 +62,9 @@ class Watchlist:
 
     def search_terms(self) -> list[str]:
         """What to actually ask a retailer for. Without this the ingest would
-        have to pull the entire catalogue and filter locally."""
-        return [r.match for r in self.rules]
+        have to pull the entire catalogue and filter locally. A multi-term rule
+        collapses to a single space-joined query."""
+        return [" ".join(r.terms) for r in self.rules]
 
 
 class WatchlistError(RuntimeError):
@@ -74,11 +86,15 @@ def load(path: Path | None = None) -> Watchlist:
 
     rules = []
     for e in entries:
-        if not e.get("match"):
+        m = e.get("match")
+        if not m:
             raise WatchlistError(f"watchlist entry missing 'match': {e!r}")
+        # A YAML list becomes an all-of term set; a scalar stays a single term.
+        if isinstance(m, list):
+            m = tuple(m)
         rules.append(
             Rule(
-                match=e["match"],
+                match=m,
                 retailers=tuple(e.get("retailers") or ()),
                 max_price=e.get("max_price"),
             )

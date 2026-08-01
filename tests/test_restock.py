@@ -88,10 +88,40 @@ def test_going_out_of_stock_does_not_alert(conn):
 
 
 def test_restock_after_selling_out_alerts_again(conn):
+    """A genuine restock a day after selling out is a real buying window and
+    must ping again -- the cooldown only swallows same-window flapping."""
+    t0 = datetime(2026, 7, 14, 12, 0, tzinfo=timezone.utc)
     seed(conn, product(in_stock=False))
-    store.upsert_products(conn, [product(in_stock=True)])
-    store.upsert_products(conn, [product(in_stock=False)])
-    assert len(store.upsert_products(conn, [product(in_stock=True)])) == 1
+    store.upsert_products(conn, [product(in_stock=True)], now=t0)
+    store.upsert_products(conn, [product(in_stock=False)], now=t0 + timedelta(hours=2))
+    later = t0 + timedelta(days=1)
+    assert len(store.upsert_products(conn, [product(in_stock=True)], now=later)) == 1
+
+
+def test_flapping_within_cooldown_does_not_re_alert(conn):
+    """The daily-Amazon-spam bug: a listing toggles Out of Stock <-> Preorder
+    across polls, and each flip back used to read as a fresh restock. Inside
+    the cooldown window, only the first transition alerts."""
+    t0 = datetime(2026, 7, 14, 12, 0, tzinfo=timezone.utc)
+    seed(conn, product(in_stock=False))
+    assert len(store.upsert_products(conn, [product(in_stock=True)], now=t0)) == 1
+    # flap out and back, twice, all within the 12h cooldown -- no new pings.
+    store.upsert_products(conn, [product(in_stock=False)], now=t0 + timedelta(hours=1))
+    assert store.upsert_products(conn, [product(in_stock=True)], now=t0 + timedelta(hours=2)) == []
+    store.upsert_products(conn, [product(in_stock=False)], now=t0 + timedelta(hours=3))
+    assert store.upsert_products(conn, [product(in_stock=True)], now=t0 + timedelta(hours=4)) == []
+
+
+def test_cooldown_is_measured_from_last_alert_not_last_sight(conn):
+    """A steady stream of in-stock sightings between flaps must not keep
+    pushing the cooldown window forward -- it's anchored to the last alert."""
+    t0 = datetime(2026, 7, 14, 12, 0, tzinfo=timezone.utc)
+    seed(conn, product(in_stock=False))
+    assert len(store.upsert_products(conn, [product(in_stock=True)], now=t0)) == 1
+    # Sold out then back, 13h later -- past the cooldown, so it re-alerts.
+    store.upsert_products(conn, [product(in_stock=False)], now=t0 + timedelta(hours=6))
+    later = t0 + timedelta(hours=13)
+    assert len(store.upsert_products(conn, [product(in_stock=True)], now=later)) == 1
 
 
 def test_new_sku_in_stock_alerts_once_the_retailer_is_known(conn):

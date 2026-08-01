@@ -182,18 +182,42 @@ collapses the overlap — which is exactly why dedupe exists.
 free; taking their commission to save a redirect would be a shabby trade, and
 the links resolve to the same product.
 
-Two rules do the real work:
+Three rules do the real work:
 
 - **Alert on the transition into stock, never on being in stock.** The cron
   runs on a schedule; without this one restock pings you on every run forever.
 - **Seed silently on first contact with a retailer.** Otherwise run one alerts
   on Best Buy's entire in-stock catalogue at once.
+- **Cool down repeat alerts on the same SKU** (`RESTOCK_COOLDOWN_HOURS`, 12h).
+  Transition-only alerting assumes the stock signal is clean. It isn't: a single
+  aggregated listing flaps `Out of Stock ↔ Preorder` across polls (one Amazon
+  marketplace offer dropping out and returning), and *every flip back is a fresh
+  out→in transition*. That was the "same Amazon post daily" spam — 6 pings in 40
+  runs from one flapping booster-display-box preorder. `last_alerted` per SKU
+  gates a repeat: a genuine restock a day after a real sell-out still fires; a
+  same-window flap does not. The window is anchored to the last *alert*, not the
+  last sighting, so a steady stream of in-stock polls can't push it forward.
 
 `watchlist.yaml` is the filter. Matching is deliberately dumb — case-insensitive
-substring, no fuzzy logic. A false negative means you miss a drop, so if
-something slips through, add an `exclude` term rather than making the matcher
-clever. An unknown price never satisfies a `max_price` rule: if we can't prove
-it's under budget, we don't claim it is.
+substring, no fuzzy logic. A rule's `match` may be a **list**, which means *all*
+terms must be present (AND): `["Center", "Elite Trainer Box"]` pins a Pokémon
+Center Edition ETB without also matching a plain ETB. A false negative means you
+miss a drop, so if something slips through, add an `exclude` term rather than
+making the matcher clever. An unknown price never satisfies a `max_price` rule:
+if we can't prove it's under budget, we don't claim it is.
+
+**The watchlist is intentionally narrow, so zero matches is a normal run** — the
+relay stays quiet rather than posting the generic-ETB firehose. `cmd_relay` does
+*not* treat "nothing matched" as an error (it once did, which would have turned
+product-spam into error-spam); scraper decay is still caught upstream, where
+`nowinstock.ingest` fails loudly if the *source* returns zero rows.
+
+**Pokémon Center is invisible to this pipeline.** NowInStock doesn't carry
+pokemoncenter.com, and there are no "Pokémon Center Edition" ETBs in the feed —
+so a literal "alert when I can buy a PC-edition ETB from Pokémon Center" is
+unsourceable (and scraping PC is a non-goal — Incapsula). The `["Center", …]`
+rule is the honest best effort: it fires only if a *tracked* retailer (Amazon &
+its marketplace) resells one, and stays silent otherwise.
 
 ### Stock status vocabularies are undocumented
 

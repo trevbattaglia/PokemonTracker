@@ -49,3 +49,13 @@ MORNING_PING_HOUR = int(os.environ.get("PKMN_MORNING_HOUR", "8"))
 
 # Cap outbound alerts; if this many fire in an hour something upstream broke.
 MAX_ALERTS_PER_RUN = 10
+
+# A restock alert fires on the out->in transition (store.upsert_products). But
+# the aggregator's stock signal *flaps*: a single marketplace listing drops out
+# and comes back, toggling Out of Stock <-> Preorder every few polls, and each
+# flip back reads as a fresh restock. That is the daily-Amazon-spam failure. So
+# suppress a repeat alert for the same SKU within this many hours -- long enough
+# to swallow an intra-day flap burst, short enough that a genuine restock a day
+# or more after a real sell-out still pings. Tune up if a noisy listing still
+# gets through; tune down if a real same-day re-drop gets swallowed.
+RESTOCK_COOLDOWN_HOURS = int(os.environ.get("PKMN_RESTOCK_COOLDOWN_HOURS", "12"))

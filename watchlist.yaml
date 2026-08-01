@@ -1,29 +1,38 @@
-# The whole point of the relay: turn a firehose into ~3 relevant pings a week.
+# The whole point of the relay: turn a firehose into the *few* pings you'll act
+# on. This list is deliberately narrow -- what you actually want to buy, not
+# every sealed product NowInStock tracks.
 #
-# A product must match at least one `watchlist` entry AND hit none of the
-# `exclude` terms. Matching is case-insensitive substring on the product name.
+# A product matches a rule when it contains ALL of that rule's `match` terms
+# (case-insensitive substring, no fuzzy logic) AND none of the `exclude` terms.
+# A list under `match` is an AND: every term must be present.
 #
-# Prices are what Best Buy actually lists today: Pitch Black ETB $49.99,
-# Booster Bundle $26.94, Booster Display Box $161.64. Set max_price a little
-# above MSRP so a normal price change doesn't silently filter a real restock
-# out -- a false negative here means you miss the drop.
+# Reality check on Pokemon Center: NowInStock -- the only live source -- does
+# not carry pokemoncenter.com (Incapsula walls it off, and it simply isn't in
+# the feed). So "Pokemon Center Edition" ETBs are only visible when a *tracked*
+# retailer (Amazon and its marketplace, mostly) resells one. The rule below
+# catches exactly that, and stays quiet the rest of the time rather than
+# spamming you with generic ETBs.
 
-# Retailer names must match the normalised values in relay/ingest/nowinstock.py:
-# amazon, target, walmart, best_buy, sams_club. Omit `retailers` to allow any.
 watchlist:
-  - match: "Elite Trainer Box"
-    retailers: [pokemon_center, target, best_buy, walmart, amazon]
-    max_price: 75.00
+  # 1. Pokemon Center Edition ETBs, from whatever tracked retailer lists one.
+  #    Requires both "Center" and "Elite Trainer Box" so a plain ETB or a
+  #    non-ETB Pokemon Center item doesn't match. "Center" (not "Pokemon
+  #    Center") on purpose: it matches both the accented "Pokemon" and the
+  #    plain spelling retailers use interchangeably. No max_price -- these are
+  #    rare and the point is not to miss one, so a markup still pings.
+  - match: ["Center", "Elite Trainer Box"]
 
-  - match: "Booster Bundle"
-    retailers: [pokemon_center, target, best_buy, walmart, amazon]
-    max_price: 40.00
+  # 2. ETBs for the upcoming calendar drops. Neither set is on the feed yet;
+  #    these rules wait for their ETB to appear or restock at a tracked
+  #    retailer. Caps sit a little above expected MSRP so a normal price
+  #    doesn't silently filter a real restock out (a false negative here means
+  #    you miss the drop), while still blocking an obvious scalper markup.
+  - match: ["30th Celebration", "Elite Trainer Box"]
+    max_price: 90.00
+  - match: ["Delta Reign", "Elite Trainer Box"]
+    max_price: 90.00
 
-  - match: "Booster Display Box"
-    retailers: [pokemon_center, target, best_buy, walmart, amazon]
-    max_price: 200.00
-
-# Sealed-adjacent merch that matches the words above but isn't what you want.
+# Merch that matches the words above but isn't the sealed ETB you want.
 exclude:
   - plush
   - pin collection

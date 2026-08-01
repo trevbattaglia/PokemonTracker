@@ -95,6 +95,36 @@ def test_search_terms_drive_the_ingest(wl):
     assert wl.search_terms() == ["Elite Trainer Box", "Booster Bundle"]
 
 
+# --- multi-term (AND) rules: pinning an edition, not just a product type -----
+
+
+def test_all_of_rule_requires_every_term():
+    wl = Watchlist(rules=(Rule(("Center", "Elite Trainer Box")),), exclude=())
+    assert wl.matches(product("Prismatic Evolutions Pokémon Center Elite Trainer Box"))
+    # Has one term but not the other -> no match.
+    assert not wl.matches(product("Prismatic Evolutions Elite Trainer Box"))
+    assert not wl.matches(product("Pokémon Center Sticker Sheet"))
+
+
+def test_all_of_rule_is_case_insensitive():
+    wl = Watchlist(rules=(Rule(("Center", "Elite Trainer Box")),), exclude=())
+    assert wl.matches(product("pokemon center ELITE TRAINER BOX"))
+
+
+def test_all_of_rule_search_term_is_space_joined():
+    wl = Watchlist(rules=(Rule(("30th Celebration", "Elite Trainer Box")),), exclude=())
+    assert wl.search_terms() == ["30th Celebration Elite Trainer Box"]
+
+
+def test_loads_a_list_match_from_yaml(tmp_path):
+    p = tmp_path / "w.yaml"
+    p.write_text(
+        'watchlist:\n  - match: ["Center", "Elite Trainer Box"]\n', encoding="utf-8"
+    )
+    wl = load(p)
+    assert wl.rules[0].terms == ("Center", "Elite Trainer Box")
+
+
 # --- loading --------------------------------------------------------------
 
 

@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .config import DB_PATH, LOCAL_TZ, MORNING_PING_HOUR
+from .config import DB_PATH, LOCAL_TZ, MORNING_PING_HOUR, RESTOCK_COOLDOWN_HOURS
 from .models import Drop, Product
 
 SCHEMA = """
@@ -51,6 +51,9 @@ CREATE TABLE IF NOT EXISTS products (
     source     TEXT NOT NULL,
     first_seen TEXT NOT NULL,
     last_seen  TEXT NOT NULL,
+    -- When we last *alerted* on this SKU (not merely last saw it). Drives the
+    -- restock cooldown so a listing that flaps in/out can't re-ping every flip.
+    last_alerted TEXT,
     PRIMARY KEY (sku, retailer)
 );
 """
@@ -86,6 +89,14 @@ def _migrate(conn: sqlite3.Connection) -> None:
             "SELECT key, ?, notified_at FROM drops WHERE notified_at IS NOT NULL",
             (MORNING_OF,),
         )
+
+    # The DB is committed to the repo, so an existing file predates the restock
+    # cooldown and lacks last_alerted. Add it in place; NULL means "never
+    # alerted", so the first genuine transition still fires.
+    pcols = {r["name"] for r in conn.execute("PRAGMA table_info(products)")}
+    if "last_alerted" not in pcols:
+        conn.execute("ALTER TABLE products ADD COLUMN last_alerted TEXT")
+
     conn.commit()
 
 
@@ -257,7 +268,12 @@ def find(conn: sqlite3.Connection, needle: str) -> list[sqlite3.Row]:
 
 
 def upsert_products(
-    conn: sqlite3.Connection, products: list[Product], *, commit: bool = True
+    conn: sqlite3.Connection,
+    products: list[Product],
+    *,
+    commit: bool = True,
+    now: datetime | None = None,
+    cooldown_hours: int | None = None,
 ) -> list[Product]:
     """Record stock levels. Returns only genuine restocks worth pinging.
 
@@ -267,9 +283,23 @@ def upsert_products(
     The first time we ever see a retailer we seed silently. Without that, run
     one would alert on its entire in-stock catalogue: dozens of pings, none of
     them news, and exactly the notification blowout the doc warns about.
+
+    Even a real transition is suppressed if we alerted on the same SKU within
+    `cooldown_hours`. The aggregator's signal flaps -- a single listing toggles
+    Out of Stock <-> Preorder across polls -- and without this every flip back
+    reads as a fresh restock and re-pings all day. `now` is injectable for
+    tests; production passes real UTC now.
     """
-    now = _now()
+    now_dt = now or datetime.now(timezone.utc)
+    now = now_dt.isoformat()
+    cooldown = RESTOCK_COOLDOWN_HOURS if cooldown_hours is None else cooldown_hours
     restocks: list[Product] = []
+
+    def cooled(last_alerted: str | None) -> bool:
+        """Enough time since the last alert on this SKU to announce again."""
+        if not last_alerted:
+            return True
+        return now_dt - datetime.fromisoformat(last_alerted) >= timedelta(hours=cooldown)
 
     # Snapshot which retailers we'd never seen *before this batch started*.
     # Computing this per-product inside the loop is wrong: inserting the first
@@ -287,7 +317,7 @@ def upsert_products(
 
     for p in products:
         prior = conn.execute(
-            "SELECT in_stock FROM products WHERE sku=? AND retailer=?",
+            "SELECT in_stock, last_alerted FROM products WHERE sku=? AND retailer=?",
             (p.sku, p.retailer),
         ).fetchone()
 
@@ -295,25 +325,32 @@ def upsert_products(
 
         if prior is None:
             # New SKU. Worth telling you about if it's buyable now -- unless
-            # this is the seeding run.
-            if p.in_stock and not first_run:
+            # this is the seeding run. No prior alert exists, so no cooldown.
+            alert = p.in_stock and not first_run
+            if alert:
                 restocks.append(p)
             conn.execute(
                 """INSERT INTO products (sku, retailer, name, price, in_stock, url,
-                       raw_status, source, first_seen, last_seen)
-                   VALUES (?,?,?,?,?,?,?,?,?,?)""",
+                       raw_status, source, first_seen, last_seen, last_alerted)
+                   VALUES (?,?,?,?,?,?,?,?,?,?,?)""",
                 (p.sku, p.retailer, p.name, p.price, int(p.in_stock), p.url,
-                 p.raw_status, p.source, now, now),
+                 p.raw_status, p.source, now, now, now if alert else None),
             )
         else:
-            if p.in_stock and not prior["in_stock"]:
-                restocks.append(p)  # out -> in. This is the signal.
+            # out -> in is the signal, but only if we haven't just alerted on
+            # this SKU -- otherwise a flapping listing re-pings every flip.
+            alert = p.in_stock and not prior["in_stock"] and cooled(prior["last_alerted"])
+            if alert:
+                restocks.append(p)
+            # Keep the prior alert timestamp on a non-alerting update so the
+            # cooldown window is measured from the last *alert*, not last sight.
+            last_alerted = now if alert else prior["last_alerted"]
             conn.execute(
                 """UPDATE products SET name=?, price=?, in_stock=?, url=?,
-                       raw_status=?, source=?, last_seen=?
+                       raw_status=?, source=?, last_seen=?, last_alerted=?
                    WHERE sku=? AND retailer=?""",
                 (p.name, p.price, int(p.in_stock), p.url, p.raw_status, p.source,
-                 now, p.sku, p.retailer),
+                 now, last_alerted, p.sku, p.retailer),
             )
 
     if commit:
