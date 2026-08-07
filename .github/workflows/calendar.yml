@@ -2,9 +2,13 @@ name: calendar
 
 # Daily drop scrape. This is not time-sensitive data -- once a day is plenty,
 # and it keeps us well inside polite scraping territory.
+#
+# PAUSED 2026-08-07 -- schedule disabled, nothing posts to Discord on its own.
+# Re-enable by uncommenting the `schedule:` block below. The first run back
+# diffs against however stale the DB has become, so expect a catch-up digest.
 on:
-  schedule:
-    - cron: "17 15 * * *" # 15:17 UTC daily; off-the-hour to dodge cron congestion
+  # schedule:
+  #   - cron: "17 15 * * *" # 15:17 UTC daily; off-the-hour to dodge cron congestion
   workflow_dispatch: # manual "run now" button
 
 permissions:

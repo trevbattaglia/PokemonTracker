@@ -17,8 +17,14 @@ latency race. Human does all purchasing, manually, in a normal browser.
 
 ## Status
 
-Phase 1 (drop calendar → Discord) and Phase 2 (restock relay) are both built
-and live. Neither needs an API key.
+Phase 1 (drop calendar → Discord) and Phase 2 (restock relay) are both built.
+Neither needs an API key.
+
+**Paused as of 2026-08-07.** Both schedules are commented out — nothing posts to
+Discord on its own. The code, the DB and the CLI are untouched: every workflow
+still has its `workflow_dispatch` "run now" button and the local commands below
+all work. To bring it back, uncomment the `schedule:` block in `calendar.yml`
+and `tick.yml`.
 
 ## How it works
 
@@ -39,7 +45,7 @@ every Pitch Black product sold out three days before Pitch Black's own release
 date, so a release-date calendar alone would have pinged you for something
 already gone.
 
-Crons:
+Crons (both **paused** — `When` is the cadence they revert to):
 
 | Workflow       | When              | Does                                             |
 | -------------- | ----------------- | ------------------------------------------------ |

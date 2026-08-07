@@ -20,9 +20,19 @@ name: tick
 #
 # (GitHub still throttles the `schedule` event itself; this tunes the half we
 # control. workflow_dispatch is here for a manual "run now".)
+#
+# PAUSED 2026-08-07 -- schedule disabled, so neither reminders nor restock
+# alerts fire. Re-enable by uncommenting the `schedule:` block below; keep it at
+# `*/30` or tighter, and keep REMINDER_LEAD_MINUTES in step with it.
+#
+# The resume is not the mirror image of the pause. Reminder stages whose window
+# passed while paused are missed for good -- `sent` means they will not fire
+# late. A restock that came and went is likewise gone; but a product still in
+# stock at resume alerts on the first run back, because the stored state still
+# says out-of-stock and that is exactly the transition the relay watches for.
 on:
-  schedule:
-    - cron: "*/30 * * * *"
+  # schedule:
+  #   - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:
